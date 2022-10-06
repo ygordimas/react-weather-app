@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { api } from "../../services/api/api";
+// import { api } from "../../services/api/api";
+import axios from "axios";
 import { countryCodes } from "../../services/countryCodes";
 import {
   StyledInput,
@@ -40,7 +41,9 @@ export function Header() {
       return country.name.match(regex);
     });
 
-    if (userCountry.length === 0 || userCountry === matches[0].name) {
+    if (userCountry.length === 0) {
+      matches = [];
+    } else if (userCountry === matches[0]?.name) {
       matches = [];
     }
 
@@ -69,12 +72,29 @@ export function Header() {
     }
   }
 
-  function handleFormSubmit() {}
+  function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    console.log(country, zipcode);
+
+    const fetchCountryData = async () => {
+      const [countryCode] = countryCodes.filter(
+        (filteredCountry) => filteredCountry.name === country
+      );
+      const data = await axios
+        .get(
+          `http://api.openweathermap.org/geo/1.0/zip?zip=${zipcode},${countryCode["alpha-2"]}&appid=38fe5f0e298f3edf79048384cd436a89`
+        )
+        .then((response: {}) => response);
+      console.log(data);
+    };
+
+    fetchCountryData();
+  }
 
   return (
     <>
       {/* "handleSubmit" will validate your inputs before invoking "onSubmit" */}
-      <StyledForm>
+      <StyledForm onSubmit={(e) => handleFormSubmit(e)}>
         {/* include validation with required or other standard HTML validation rules */}
         <StyledInputContainer>
           <StyledInput
@@ -92,7 +112,11 @@ export function Header() {
             placeholder="Country"
             value={country}
             onChange={(e) => {
-              setCountry(e.target.value);
+              const country = e.target.value;
+              const countryCapitalized =
+                country.charAt(0).toUpperCase() +
+                country.slice(1).toLowerCase();
+              setCountry(countryCapitalized);
             }}
           />
           <StyledList>
