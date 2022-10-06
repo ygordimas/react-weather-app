@@ -20,6 +20,14 @@ interface CountryList {
   "country-code": string;
 }
 
+interface CountryData {
+  country: string;
+  lat: number;
+  lon: number;
+  name: string;
+  zip: string;
+}
+
 // console.log(
 //   countryCodes.map((country) =>
 //     country.name === "Brazil"
@@ -80,12 +88,24 @@ export function Header() {
       const [countryCode] = countryCodes.filter(
         (filteredCountry) => filteredCountry.name === country
       );
-      const data = await axios
+      const countryData = await axios
         .get(
           `http://api.openweathermap.org/geo/1.0/zip?zip=${zipcode},${countryCode["alpha-2"]}&appid=38fe5f0e298f3edf79048384cd436a89`
         )
         .then((response: {}) => response);
-      console.log(data);
+      console.log(countryData);
+
+      const weatherData = async () => {
+        const weather = await axios
+          .get(
+            `https://api.openweathermap.org/data/2.5/weather?lat=${countryData.data.lat}&lon=${countryData.data.lon}&units=metric&appid=38fe5f0e298f3edf79048384cd436a89`
+          )
+          .then((response: {}) => response);
+
+        console.log(weather);
+      };
+
+      weatherData();
     };
 
     fetchCountryData();
