@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
 import { api } from "../../services/api/api";
 import { countryCodes } from "../../services/countryCodes";
+import {
+  StyledInput,
+  StyledInputContainer,
+  StyledList,
+  StyledForm,
+} from "./styles";
 
 type Input = {
   postalCode: string;
@@ -23,21 +28,11 @@ interface CountryList {
 // );
 
 export function Header() {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<Input>();
-  const onSubmit: SubmitHandler<Input> = (data) => {
-    console.log(data);
-  };
-
+  const [country, setCountry] = useState("");
+  const [zipcode, setZipcode] = useState("");
   const [availableCountries, setAvailableCountries] = useState<CountryList[]>(
     []
   );
-
-  const userCountry = watch("countryName");
 
   function listOfCountries(userCountry: string) {
     let matches = countryCodes.filter((country) => {
@@ -45,15 +40,16 @@ export function Header() {
       return country.name.match(regex);
     });
 
-    if (userCountry.length === 0) {
+    if (userCountry.length === 0 || userCountry === matches[0].name) {
       matches = [];
     }
 
-    console.log(matches);
     setAvailableCountries(matches);
   }
 
-  useEffect(() => {}, [watch("countryName")]);
+  useEffect(() => {
+    listOfCountries(country);
+  }, [country]);
 
   // useEffect(() => {
   //   api
@@ -73,38 +69,48 @@ export function Header() {
     }
   }
 
+  function handleFormSubmit() {}
+
   return (
     <>
       {/* "handleSubmit" will validate your inputs before invoking "onSubmit" */}
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <StyledForm>
         {/* include validation with required or other standard HTML validation rules */}
-        <input
-          placeholder="Zip Code"
-          onKeyDown={(e) => checksIfNumber(e)}
-          {...register("postalCode", {
-            required: true,
-            pattern: /^\d+$/,
-          })}
-        />
+        <StyledInputContainer>
+          <StyledInput
+            placeholder="Zip Code"
+            onKeyDown={(e) => checksIfNumber(e)}
+            value={zipcode}
+            onChange={(e) => {
+              setZipcode(e.target.value);
+            }}
+          />
+        </StyledInputContainer>
 
-        <input
-          placeholder="Country"
-          {...register("countryName", {
-            onChange: (e) => listOfCountries(e.target.value),
-          })}
-        />
-
-        {/* errors will return when field validation fails  */}
-        {errors.postalCode && <span>This field is required</span>}
+        <StyledInputContainer>
+          <StyledInput
+            placeholder="Country"
+            value={country}
+            onChange={(e) => {
+              setCountry(e.target.value);
+            }}
+          />
+          <StyledList>
+            {availableCountries.map((country) => (
+              <li
+                onClick={(e) => {
+                  setCountry((e.target as HTMLElement).innerText);
+                  setAvailableCountries([]);
+                }}
+              >
+                {country.name}
+              </li>
+            ))}
+          </StyledList>
+        </StyledInputContainer>
 
         <input type="submit" />
-      </form>
-
-      <ul>
-        {availableCountries.map((country) => (
-          <li>{country.name}</li>
-        ))}
-      </ul>
+      </StyledForm>
     </>
   );
 }
