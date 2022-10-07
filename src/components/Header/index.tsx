@@ -8,6 +8,7 @@ import {
   StyledList,
   StyledForm,
 } from "./styles";
+import { useWeather } from "../../hooks/useWeatherContext";
 
 type Input = {
   postalCode: string;
@@ -37,8 +38,8 @@ interface CountryData {
 // );
 
 export function Header() {
-  const [country, setCountry] = useState("");
-  const [zipcode, setZipcode] = useState("");
+  const { country, setCountry, zipcode, setZipcode, fetchWeatherData } =
+    useWeather();
   const [availableCountries, setAvailableCountries] = useState<CountryList[]>(
     []
   );
@@ -82,33 +83,8 @@ export function Header() {
 
   function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log(country, zipcode);
 
-    const fetchCountryData = async () => {
-      const [countryCode] = countryCodes.filter(
-        (filteredCountry) => filteredCountry.name === country
-      );
-      const countryData = await axios
-        .get(
-          `http://api.openweathermap.org/geo/1.0/zip?zip=${zipcode},${countryCode["alpha-2"]}&appid=38fe5f0e298f3edf79048384cd436a89`
-        )
-        .then((response: {}) => response);
-      console.log(countryData);
-
-      const weatherData = async () => {
-        const weather = await axios
-          .get(
-            `https://api.openweathermap.org/data/2.5/weather?lat=${countryData.data.lat}&lon=${countryData.data.lon}&units=metric&appid=38fe5f0e298f3edf79048384cd436a89`
-          )
-          .then((response: {}) => response);
-
-        console.log(weather);
-      };
-
-      weatherData();
-    };
-
-    fetchCountryData();
+    fetchWeatherData();
   }
 
   return (
