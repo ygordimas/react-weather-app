@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-// import { api } from "../../services/api/api";
-import axios from "axios";
+
 import { countryCodes } from "../../services/countryCodes";
 import {
   StyledInput,
@@ -29,17 +28,15 @@ interface CountryData {
   zip: string;
 }
 
-// console.log(
-//   countryCodes.map((country) =>
-//     country.name === "Brazil"
-//       ? console.log(country["country-code"])
-//       : console.log("nope")
-//   )
-// );
-
 export function Header() {
-  const { country, setCountry, zipcode, setZipcode, fetchWeatherData } =
-    useWeather();
+  const {
+    country,
+    setCountry,
+    zipcode,
+    setZipcode,
+    fetchWeatherData,
+    currentWeather,
+  } = useWeather();
   const [availableCountries, setAvailableCountries] = useState<CountryList[]>(
     []
   );
@@ -61,19 +58,8 @@ export function Header() {
 
   useEffect(() => {
     listOfCountries(country);
-  }, [country]);
-
-  // useEffect(() => {
-  //   api
-  //     .get(
-  //       "/geo/1.0/zip?zip=38140000,BR&appid=38fe5f0e298f3edf79048384cd436a89"
-  //     )
-  //     .then((response: {}) => console.log(response));
-  // }, []);
-
-  // useEffect(() => {
-  //   console.log(postalCode);
-  // }, [postalCode]);
+    console.log(currentWeather);
+  }, [country, currentWeather]);
 
   function checksIfNumber(e: React.KeyboardEvent<HTMLInputElement>) {
     if (!/[0-9]/.test(e.key) && e.key !== "Backspace" && e.key !== "Enter") {
@@ -89,9 +75,7 @@ export function Header() {
 
   return (
     <>
-      {/* "handleSubmit" will validate your inputs before invoking "onSubmit" */}
       <StyledForm onSubmit={(e) => handleFormSubmit(e)}>
-        {/* include validation with required or other standard HTML validation rules */}
         <StyledInputContainer>
           <StyledInput
             placeholder="Zip Code"

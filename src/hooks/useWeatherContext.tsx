@@ -8,11 +8,20 @@ interface WeatherContextData {
   setCountry: (country: string) => void;
   setZipcode: (zipcode: string) => void;
   fetchWeatherData: () => Promise<void>;
+  currentWeather: { [key: string]: any };
 }
 
 interface WeatherProviderProps {
   children: ReactNode;
 }
+
+type Location = {
+  [key: string]: any;
+};
+
+type Weather = {
+  [key: string]: any;
+};
 
 export const WeatherContext = createContext<WeatherContextData>(
   {} as WeatherContextData
@@ -21,26 +30,27 @@ export const WeatherContext = createContext<WeatherContextData>(
 export function WeatherProvider({ children }: WeatherProviderProps) {
   const [country, setCountry] = useState("");
   const [zipcode, setZipcode] = useState("");
+  const [currentWeather, setCurrentWeather] = useState({});
 
   const fetchWeatherData = async () => {
     const [countryCode] = countryCodes.filter(
       (filteredCountry) => filteredCountry.name === country
     );
-    const countryData = await axios
+    const locationData: Location = await axios
       .get(
         `http://api.openweathermap.org/geo/1.0/zip?zip=${zipcode},${countryCode["alpha-2"]}&appid=38fe5f0e298f3edf79048384cd436a89`
       )
       .then((response: {}) => response);
-    console.log(countryData);
 
     const weatherData = async () => {
-      const weather = await axios
+      const weather: Weather = await axios
         .get(
-          `https://api.openweathermap.org/data/2.5/weather?lat=${countryData.data.lat}&lon=${countryData.data.lon}&units=metric&appid=38fe5f0e298f3edf79048384cd436a89`
+          `https://api.openweathermap.org/data/2.5/weather?lat=${locationData.data.lat}&lon=${locationData.data.lon}&units=metric&appid=38fe5f0e298f3edf79048384cd436a89`
         )
         .then((response: {}) => response);
-
-      console.log(weather);
+      console.log("there was an attempt");
+      console.log(locationData);
+      setCurrentWeather(weather.data);
     };
 
     weatherData();
@@ -54,6 +64,7 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
         zipcode,
         setZipcode,
         fetchWeatherData,
+        currentWeather,
       }}
     >
       {children}

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import DisplayCurrentWeather from "./components/DisplayCurrentWeather";
 
 import { Header } from "./components/Header";
 import { WeatherContext, WeatherProvider } from "./hooks/useWeatherContext";
@@ -10,6 +11,7 @@ function App() {
     <div className="App">
       <WeatherProvider>
         <Header />
+        <DisplayCurrentWeather />
       </WeatherProvider>
     </div>
   );
