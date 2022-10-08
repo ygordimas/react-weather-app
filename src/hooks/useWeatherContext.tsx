@@ -7,8 +7,12 @@ interface WeatherContextData {
   zipcode: string;
   setCountry: (country: string) => void;
   setZipcode: (zipcode: string) => void;
+  fetchLocation: () => Promise<void>;
   fetchWeatherData: () => Promise<void>;
-  currentWeather: { [key: string]: any };
+  fetchForecastData: () => Promise<void>;
+  lat: string;
+  lon: string;
+  current: { [key: string]: any };
 }
 
 interface WeatherProviderProps {
@@ -30,30 +34,47 @@ export const WeatherContext = createContext<WeatherContextData>(
 export function WeatherProvider({ children }: WeatherProviderProps) {
   const [country, setCountry] = useState("");
   const [zipcode, setZipcode] = useState("");
-  const [currentWeather, setCurrentWeather] = useState({});
+  const [lat, setLat] = useState("");
+  const [lon, setLon] = useState("");
+  const [current, setCurrent] = useState({});
 
-  const fetchWeatherData = async () => {
+  const fetchLocation = async () => {
     const [countryCode] = countryCodes.filter(
       (filteredCountry) => filteredCountry.name === country
     );
     const locationData: Location = await axios
       .get(
-        `http://api.openweathermap.org/geo/1.0/zip?zip=${zipcode},${countryCode["alpha-2"]}&appid=38fe5f0e298f3edf79048384cd436a89`
+        `http://api.openweathermap.org/geo/1.0/zip?zip=${zipcode},${countryCode["alpha-2"]}&appid=8567130102e0822763639b23376349b9`
       )
       .then((response: {}) => response);
 
-    const weatherData = async () => {
-      const weather: Weather = await axios
-        .get(
-          `https://api.openweathermap.org/data/2.5/weather?lat=${locationData.data.lat}&lon=${locationData.data.lon}&units=metric&appid=38fe5f0e298f3edf79048384cd436a89`
-        )
-        .then((response: {}) => response);
-      console.log("there was an attempt");
-      console.log(locationData);
-      setCurrentWeather(weather.data);
-    };
+    setLat(locationData.data.lat);
+    setLon(locationData.data.lon);
 
-    weatherData();
+    const location = {
+      zipcode: zipcode,
+      country: country,
+      lat: locationData.data.lat,
+      lon: locationData.data.lon,
+    };
+  };
+
+  const fetchWeatherData = async () => {
+    const weather: Weather = await axios
+      .get(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=8567130102e0822763639b23376349b9`
+      )
+      .then((response: {}) => response);
+
+    setCurrent(weather.data);
+  };
+
+  const fetchForecastData = async () => {
+    const forecast = await axios
+      .get(
+        `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=8567130102e0822763639b23376349b9`
+      )
+      .then((response) => console.log(response));
   };
 
   return (
@@ -63,8 +84,12 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
         setCountry,
         zipcode,
         setZipcode,
+        fetchLocation,
         fetchWeatherData,
-        currentWeather,
+        fetchForecastData,
+        lat,
+        lon,
+        current,
       }}
     >
       {children}

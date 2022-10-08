@@ -29,14 +29,8 @@ interface CountryData {
 }
 
 export function Header() {
-  const {
-    country,
-    setCountry,
-    zipcode,
-    setZipcode,
-    fetchWeatherData,
-    currentWeather,
-  } = useWeather();
+  const { country, setCountry, zipcode, setZipcode, fetchLocation } =
+    useWeather();
   const [availableCountries, setAvailableCountries] = useState<CountryList[]>(
     []
   );
@@ -58,11 +52,15 @@ export function Header() {
 
   useEffect(() => {
     listOfCountries(country);
-    console.log(currentWeather);
-  }, [country, currentWeather]);
+  }, [country]);
 
   function checksIfNumber(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (!/[0-9]/.test(e.key) && e.key !== "Backspace" && e.key !== "Enter") {
+    if (
+      !/[0-9]/.test(e.key) &&
+      e.key !== "Backspace" &&
+      e.key !== "Enter" &&
+      e.key !== "Tab"
+    ) {
       e.preventDefault();
     }
   }
@@ -70,7 +68,7 @@ export function Header() {
   function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    fetchWeatherData();
+    fetchLocation();
   }
 
   return (
