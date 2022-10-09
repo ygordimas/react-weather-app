@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useWeather } from "../../hooks/useWeatherContext";
+import { StyledContainer } from "./styles";
 
 export default function DisplayCurrentWeather() {
   const { fetchWeatherData, fetchForecastData, lat, current, forecast } =
@@ -14,7 +15,7 @@ export default function DisplayCurrentWeather() {
   return (
     <>
       {Object.hasOwn(current, "weather") && (
-        <div>
+        <StyledContainer>
           <img
             src={`http://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png`}
             alt=""
@@ -31,7 +32,7 @@ export default function DisplayCurrentWeather() {
               <p>maximum temperature {current.main.temp_max}</p>
             </>
           )}
-        </div>
+        </StyledContainer>
       )}
     </>
   );

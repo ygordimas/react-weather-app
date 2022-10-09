@@ -14,7 +14,7 @@ interface WeatherContextData {
   lat: string;
   lon: string;
   current: { [key: string]: any };
-  forecast: {};
+  forecast: [];
 }
 
 interface WeatherProviderProps {
@@ -88,15 +88,15 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
   };
 
   const fetchForecastData = async () => {
-    const forecast = await axios
+    const fetchedForecast = await axios
       .get(
         `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=8567130102e0822763639b23376349b9`
       )
-      .then((response) => response);
+      .then((response) => response.data.list);
 
-    setForecast(forecast);
-    localStorage.setItem("forecast", JSON.stringify(forecast));
-    console.log(forecast);
+    setForecast(fetchedForecast);
+    localStorage.setItem("forecast", JSON.stringify(fetchedForecast));
+    console.log(fetchedForecast);
   };
 
   return (
