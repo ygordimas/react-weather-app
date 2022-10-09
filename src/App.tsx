@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import DisplayCurrentWeather from "./components/DisplayCurrentWeather";
+import { DisplayForecastWeather } from "./components/DisplayForecastWeather";
 
 import { Header } from "./components/Header";
 import {
@@ -14,6 +15,7 @@ function App() {
       <WeatherProvider>
         <Header />
         <DisplayCurrentWeather />
+        <DisplayForecastWeather />
       </WeatherProvider>
     </div>
   );

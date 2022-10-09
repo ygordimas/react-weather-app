@@ -29,8 +29,15 @@ interface CountryData {
 }
 
 export function Header() {
-  const { country, setCountry, zipcode, setZipcode, fetchLocation } =
-    useWeather();
+  const {
+    country,
+    setCountry,
+    zipcode,
+    setZipcode,
+    fetchLocation,
+    fetchWeatherData,
+    fetchForecastData,
+  } = useWeather();
   const [availableCountries, setAvailableCountries] = useState<CountryList[]>(
     []
   );
@@ -69,6 +76,8 @@ export function Header() {
     e.preventDefault();
 
     fetchLocation();
+    fetchWeatherData();
+    fetchForecastData();
   }
 
   return (

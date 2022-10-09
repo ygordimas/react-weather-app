@@ -1,4 +1,5 @@
 import axios from "axios";
+import { stringify } from "querystring";
 import { createContext, ReactNode, useContext, useState } from "react";
 import { countryCodes } from "../services/countryCodes";
 
@@ -13,6 +14,7 @@ interface WeatherContextData {
   lat: string;
   lon: string;
   current: { [key: string]: any };
+  forecast: {};
 }
 
 interface WeatherProviderProps {
@@ -32,11 +34,24 @@ export const WeatherContext = createContext<WeatherContextData>(
 );
 
 export function WeatherProvider({ children }: WeatherProviderProps) {
-  const [country, setCountry] = useState("");
-  const [zipcode, setZipcode] = useState("");
-  const [lat, setLat] = useState("");
-  const [lon, setLon] = useState("");
-  const [current, setCurrent] = useState({});
+  const [country, setCountry] = useState(
+    "" || JSON.parse(localStorage.getItem("location") as string).country
+  );
+  const [zipcode, setZipcode] = useState(
+    "" || JSON.parse(localStorage.getItem("location") as string).zipcode
+  );
+  const [lat, setLat] = useState(
+    "" || JSON.parse(localStorage.getItem("location") as string).lat
+  );
+  const [lon, setLon] = useState(
+    "" || JSON.parse(localStorage.getItem("location") as string).lon
+  );
+  const [current, setCurrent] = useState(
+    {} || JSON.parse(localStorage.getItem("current") as string)
+  );
+  const [forecast, setForecast] = useState(
+    {} || JSON.parse(localStorage.getItem("forecast") as string)
+  );
 
   const fetchLocation = async () => {
     const [countryCode] = countryCodes.filter(
@@ -57,6 +72,8 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
       lat: locationData.data.lat,
       lon: locationData.data.lon,
     };
+
+    localStorage.setItem("location", JSON.stringify(location));
   };
 
   const fetchWeatherData = async () => {
@@ -67,6 +84,7 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
       .then((response: {}) => response);
 
     setCurrent(weather.data);
+    localStorage.setItem("currentWeather", JSON.stringify(weather.data));
   };
 
   const fetchForecastData = async () => {
@@ -74,7 +92,11 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
       .get(
         `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=8567130102e0822763639b23376349b9`
       )
-      .then((response) => console.log(response));
+      .then((response) => response);
+
+    setForecast(forecast);
+    localStorage.setItem("forecast", JSON.stringify(forecast));
+    console.log(forecast);
   };
 
   return (
@@ -90,6 +112,7 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
         lat,
         lon,
         current,
+        forecast,
       }}
     >
       {children}

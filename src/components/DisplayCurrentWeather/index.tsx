@@ -2,19 +2,11 @@ import { useEffect, useState } from "react";
 import { useWeather } from "../../hooks/useWeatherContext";
 
 export default function DisplayCurrentWeather() {
-  const {
-    country,
-    setCountry,
-    zipcode,
-    setZipcode,
-    fetchWeatherData,
-    lat,
-    lon,
-    current,
-  } = useWeather();
+  const { fetchWeatherData, fetchForecastData, lat, current, forecast } =
+    useWeather();
 
   useEffect(() => {
-    if (lat) {
+    if (lat && Object.keys(current).length === 0) {
       fetchWeatherData();
     }
   }, [lat]);
