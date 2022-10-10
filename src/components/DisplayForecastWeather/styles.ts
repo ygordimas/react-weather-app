@@ -12,3 +12,8 @@ export const StyledContainer = styled.div`
     width: min-content;
   }
 `;
+
+export const ForecastContainer = styled.div`
+  display: flex;
+  gap: 0.5rem;
+`;
