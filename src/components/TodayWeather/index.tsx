@@ -1,6 +1,7 @@
 import React from "react";
 import { useWeather } from "../../hooks/useWeatherContext";
 import { MONTHS } from "../../services/months";
+import { WeatherCard } from "../WeatherCard";
 import { TodayWeatherCard } from "./styles";
 
 type ForecastDay = {
@@ -31,7 +32,7 @@ export function TodayWeather() {
             const forecastDayNumber = new Date(day["dt"] * 1000).getDate();
             if (i === 0) {
               return (
-                <TodayWeatherCard key={day["dt"]}>
+                <WeatherCard key={day["dt"]}>
                   <p>
                     {"Forecast for " +
                       forecastDayNumber +
@@ -48,7 +49,7 @@ export function TodayWeather() {
                   <p>temperature: {day.main.temp}ºC</p>
                   <p>chance of rain: {day.pop * 100}%</p>
                   <p>wind: {(day.wind.speed * 3.6).toFixed()}km/h</p>
-                </TodayWeatherCard>
+                </WeatherCard>
               );
             }
           })}

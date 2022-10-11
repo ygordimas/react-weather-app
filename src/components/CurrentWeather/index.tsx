@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useWeather } from "../../hooks/useWeatherContext";
 import { CurrentWeatherContainer } from "./styles";
+import { WeatherCard } from "../WeatherCard";
 
 type CurrentData = {
   name: string;
@@ -21,29 +22,31 @@ export default function CurrentWeather() {
   const CurrentWeatherComponent = () => {
     return (
       <>
-        <CurrentWeatherContainer>
-          <p>checking the weather for {current.name}</p>
-          <img
-            src={`http://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png`}
-            alt=""
-          />
-          <p>Weather is {current.weather[0].main}</p>
-          <p>{current.weather[0].description}</p>
-          <p>temperature {current.main.temp.toFixed()}ºC</p>
-          <p>feels like {current.main.feels_like.toFixed()}ºC</p>
-          <p>humidity {current.main.humidity.toFixed()}%</p>
-          {/* 
+        {Object.keys(current).length > 0 && (
+          <WeatherCard>
+            <p>checking the weather for {current.name}</p>
+            <img
+              src={`http://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png`}
+              alt=""
+            />
+            <p>Weather is {current.weather[0].main}</p>
+            <p>{current.weather[0].description}</p>
+            <p>temperature {current.main.temp.toFixed()}ºC</p>
+            <p>feels like {current.main.feels_like.toFixed()}ºC</p>
+            <p>humidity {current.main.humidity.toFixed()}%</p>
+            {/* 
           minimum and maximum temperatures are only available for large cities
            */}
-          {current.main.temp === current.main.temp_max &&
-          current.main.temp === current.main.temp_min ? null : (
-            <>
-              <p>minimum temperature {current.main.temp_min}</p>
-              <p>maximum temperature {current.main.temp_max}</p>
-            </>
-          )}
-          <p>wind: {(current.wind.speed * 3.6).toFixed()}km/h</p>
-        </CurrentWeatherContainer>
+            {current.main.temp === current.main.temp_max &&
+            current.main.temp === current.main.temp_min ? null : (
+              <>
+                <p>minimum temperature {current.main.temp_min}</p>
+                <p>maximum temperature {current.main.temp_max}</p>
+              </>
+            )}
+            <p>wind: {(current.wind.speed * 3.6).toFixed()}km/h</p>
+          </WeatherCard>
+        )}
       </>
     );
   };

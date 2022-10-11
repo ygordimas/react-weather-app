@@ -15,11 +15,10 @@ interface WeatherContextData {
   setCountry: (country: string) => void;
   setZipcode: (zipcode: string) => void;
   fetchLocation: () => Promise<void>;
-  fetchCurrentData: () => Promise<void>;
-  fetchForecastData: () => Promise<void>;
-
   lat: string;
   lon: string;
+  isLoading: boolean;
+  setIsLoading: (value: boolean) => void;
   current: {
     name: string;
     weather: [{ description: string; icon: string; main: string }];
@@ -30,8 +29,11 @@ interface WeatherContextData {
       temp_max: number;
       temp_min: number;
     };
+
     wind: { speed: number };
   };
+  setCurrent: (value: {}) => void;
+  setForecast: (value: {}) => void;
   forecast: [];
 }
 
@@ -70,6 +72,7 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
   const [forecast, setForecast] = useState(
     JSON.parse(localStorage.getItem("forecast") as string) || {}
   );
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     fetchCurrentData();
@@ -129,12 +132,14 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
         zipcode,
         setZipcode,
         fetchLocation,
-        fetchCurrentData,
-        fetchForecastData,
+        isLoading,
+        setIsLoading,
         lat,
         lon,
         current,
+        setCurrent,
         forecast,
+        setForecast,
       }}
     >
       {children}

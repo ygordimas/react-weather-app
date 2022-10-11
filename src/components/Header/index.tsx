@@ -35,7 +35,8 @@ export function Header() {
     zipcode,
     setZipcode,
     fetchLocation,
-    fetchForecastData,
+    setCurrent,
+    setForecast,
     lat,
     lon,
   } = useWeather();
@@ -75,7 +76,8 @@ export function Header() {
 
   function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
+    setCurrent({});
+    setForecast({});
     fetchLocation();
   }
 

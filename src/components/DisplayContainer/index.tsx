@@ -2,15 +2,20 @@ import React from "react";
 import DisplayCurrentWeather from "../CurrentWeather";
 import { DisplayForecast } from "../DisplayForecast";
 import { DisplayToday } from "../DisplayToday";
-import { DisplayGridContainer } from "./styles";
+import { LoadingIcon } from "../LoadingIcon";
+import { StyledDisplayContainer } from "./styles";
+import { useWeather } from "../../hooks/useWeatherContext";
 
 export function DisplayContainer() {
+  const { isLoading, setIsLoading } = useWeather();
+
   return (
     <>
-      <DisplayGridContainer>
+      <StyledDisplayContainer>
+        {isLoading && <LoadingIcon />}
         <DisplayToday />
         <DisplayForecast />
-      </DisplayGridContainer>
+      </StyledDisplayContainer>
     </>
   );
 }
