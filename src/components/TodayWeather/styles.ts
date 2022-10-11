@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const StyledContainer = styled.div`
+export const TodayWeatherCard = styled.div`
   display: flex;
   flex-direction: column;
   border: 1px solid black;
@@ -11,4 +11,8 @@ export const StyledContainer = styled.div`
   img {
     width: min-content;
   }
+`;
+
+export const TodayWeatherContainer = styled.div`
+  grid-area: forecastToday;
 `;

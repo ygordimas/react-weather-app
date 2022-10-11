@@ -35,8 +35,9 @@ export function Header() {
     zipcode,
     setZipcode,
     fetchLocation,
-    fetchWeatherData,
     fetchForecastData,
+    lat,
+    lon,
   } = useWeather();
   const [availableCountries, setAvailableCountries] = useState<CountryList[]>(
     []
@@ -76,8 +77,6 @@ export function Header() {
     e.preventDefault();
 
     fetchLocation();
-    fetchWeatherData();
-    fetchForecastData();
   }
 
   return (

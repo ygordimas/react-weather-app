@@ -1,6 +1,12 @@
 import axios from "axios";
 import { stringify } from "querystring";
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { countryCodes } from "../services/countryCodes";
 
 interface WeatherContextData {
@@ -9,11 +15,23 @@ interface WeatherContextData {
   setCountry: (country: string) => void;
   setZipcode: (zipcode: string) => void;
   fetchLocation: () => Promise<void>;
-  fetchWeatherData: () => Promise<void>;
+  fetchCurrentData: () => Promise<void>;
   fetchForecastData: () => Promise<void>;
+
   lat: string;
   lon: string;
-  current: { [key: string]: any };
+  current: {
+    name: string;
+    weather: [{ description: string; icon: string; main: string }];
+    main: {
+      feels_like: number;
+      humidity: number;
+      temp: number;
+      temp_max: number;
+      temp_min: number;
+    };
+    wind: { speed: number };
+  };
   forecast: [];
 }
 
@@ -35,23 +53,28 @@ export const WeatherContext = createContext<WeatherContextData>(
 
 export function WeatherProvider({ children }: WeatherProviderProps) {
   const [country, setCountry] = useState(
-    "" || JSON.parse(localStorage.getItem("location") as string).country
+    JSON.parse(localStorage.getItem("location") as string)?.country || ""
   );
   const [zipcode, setZipcode] = useState(
-    "" || JSON.parse(localStorage.getItem("location") as string).zipcode
+    JSON.parse(localStorage.getItem("location") as string)?.zipcode || ""
   );
   const [lat, setLat] = useState(
-    "" || JSON.parse(localStorage.getItem("location") as string).lat
+    JSON.parse(localStorage.getItem("location") as string)?.lat || ""
   );
   const [lon, setLon] = useState(
-    "" || JSON.parse(localStorage.getItem("location") as string).lon
+    JSON.parse(localStorage.getItem("location") as string)?.lon || ""
   );
   const [current, setCurrent] = useState(
-    {} || JSON.parse(localStorage.getItem("current") as string)
+    JSON.parse(localStorage.getItem("current") as string) || {}
   );
   const [forecast, setForecast] = useState(
-    {} || JSON.parse(localStorage.getItem("forecast") as string)
+    JSON.parse(localStorage.getItem("forecast") as string) || {}
   );
+
+  useEffect(() => {
+    fetchCurrentData();
+    fetchForecastData();
+  }, [lat]);
 
   const fetchLocation = async () => {
     const [countryCode] = countryCodes.filter(
@@ -76,7 +99,7 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
     localStorage.setItem("location", JSON.stringify(location));
   };
 
-  const fetchWeatherData = async () => {
+  const fetchCurrentData = async () => {
     const weather: Weather = await axios
       .get(
         `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=8567130102e0822763639b23376349b9`
@@ -84,7 +107,7 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
       .then((response: {}) => response);
 
     setCurrent(weather.data);
-    localStorage.setItem("currentWeather", JSON.stringify(weather.data));
+    localStorage.setItem("current", JSON.stringify(weather.data));
   };
 
   const fetchForecastData = async () => {
@@ -96,7 +119,6 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
 
     setForecast(fetchedForecast);
     localStorage.setItem("forecast", JSON.stringify(fetchedForecast));
-    console.log(fetchedForecast);
   };
 
   return (
@@ -107,7 +129,7 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
         zipcode,
         setZipcode,
         fetchLocation,
-        fetchWeatherData,
+        fetchCurrentData,
         fetchForecastData,
         lat,
         lon,
