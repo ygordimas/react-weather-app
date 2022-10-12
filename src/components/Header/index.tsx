@@ -39,6 +39,7 @@ export function Header() {
     setForecast,
     lat,
     lon,
+    setIsLoading,
   } = useWeather();
   const [availableCountries, setAvailableCountries] = useState<CountryList[]>(
     []
@@ -76,8 +77,9 @@ export function Header() {
 
   function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setCurrent({});
-    setForecast({});
+    localStorage.removeItem("current");
+    localStorage.removeItem("forecast");
+    setIsLoading(true);
     fetchLocation();
   }
 

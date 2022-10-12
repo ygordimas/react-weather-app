@@ -1,5 +1,4 @@
 import axios from "axios";
-import { stringify } from "querystring";
 import {
   createContext,
   ReactNode,
@@ -35,6 +34,7 @@ interface WeatherContextData {
   setCurrent: (value: {}) => void;
   setForecast: (value: {}) => void;
   forecast: [];
+  errorMessage: string;
 }
 
 interface WeatherProviderProps {
@@ -73,53 +73,88 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
     JSON.parse(localStorage.getItem("forecast") as string) || {}
   );
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
+    handleClearData();
+    //checks if there are no valid inputs for fetching to not waste a call to the API
+    if (!lat && !lon) return;
     fetchCurrentData();
     fetchForecastData();
-  }, [lat]);
+  }, [lat, errorMessage]);
+
+  function handleClearData() {
+    localStorage.removeItem("current");
+    localStorage.removeItem("forecast");
+    setCurrent({});
+    setForecast({});
+  }
 
   const fetchLocation = async () => {
-    const [countryCode] = countryCodes.filter(
-      (filteredCountry) => filteredCountry.name === country
-    );
-    const locationData: Location = await axios
-      .get(
-        `http://api.openweathermap.org/geo/1.0/zip?zip=${zipcode},${countryCode["alpha-2"]}&appid=8567130102e0822763639b23376349b9`
-      )
-      .then((response: {}) => response);
+    try {
+      setErrorMessage("");
+      const [countryCode] = countryCodes.filter(
+        (filteredCountry) => filteredCountry.name === country
+      );
 
-    setLat(locationData.data.lat);
-    setLon(locationData.data.lon);
+      if (countryCode === undefined) {
+        //if country input doesn't match any of the countries in the ISO-3166 countryCodes list, throw an error
+        throw new Error("Invalid country");
+      }
 
-    const location = {
-      zipcode: zipcode,
-      country: country,
-      lat: locationData.data.lat,
-      lon: locationData.data.lon,
-    };
+      const locationData: Location = await axios
+        .get(
+          `http://api.openweathermap.org/geo/1.0/zip?zip=${zipcode},${countryCode["alpha-2"]}&appid=8567130102e0822763639b23376349b9`
+        )
+        .then((response: {}) => response)
+        .catch(() => {
+          throw new Error("Invalid zipcode");
+        });
 
-    localStorage.setItem("location", JSON.stringify(location));
+      setLat(locationData.data.lat);
+      setLon(locationData.data.lon);
+
+      const location = {
+        zipcode: zipcode,
+        country: country,
+        lat: locationData.data.lat,
+        lon: locationData.data.lon,
+      };
+
+      localStorage.setItem("location", JSON.stringify(location));
+    } catch (err: any) {
+      setErrorMessage(err.toString());
+      localStorage.removeItem("location");
+      setLat("");
+      setLon("");
+    } finally {
+      //cleanup for incorrect zipcode/country input
+      setIsLoading(false);
+    }
   };
 
   const fetchCurrentData = async () => {
+    console.log("fetched weather");
     const weather: Weather = await axios
       .get(
         `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=8567130102e0822763639b23376349b9`
       )
       .then((response: {}) => response);
 
+    setIsLoading(false);
     setCurrent(weather.data);
     localStorage.setItem("current", JSON.stringify(weather.data));
   };
 
   const fetchForecastData = async () => {
+    console.log("fetched forecast");
     const fetchedForecast = await axios
       .get(
         `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=8567130102e0822763639b23376349b9`
       )
       .then((response) => response.data.list);
 
+    setIsLoading(false);
     setForecast(fetchedForecast);
     localStorage.setItem("forecast", JSON.stringify(fetchedForecast));
   };
@@ -140,6 +175,7 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
         setCurrent,
         forecast,
         setForecast,
+        errorMessage,
       }}
     >
       {children}
