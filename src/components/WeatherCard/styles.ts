@@ -5,9 +5,10 @@ export const StyledWeatherCard = styled.div`
   flex-direction: column;
   border: 1px solid black;
   padding: 1rem;
-  width: 20rem;
+  width: 10rem;
   align-items: flex-end;
-  background-color: beige;
+  color: rgba(var(--purpleHeart), 1);
+  background-color: rgba(var(--almond), 1);
   margin: 0.2rem;
 
   img {

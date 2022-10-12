@@ -6,6 +6,8 @@ import {
   StyledInputContainer,
   StyledList,
   StyledForm,
+  StyledFormContainer,
+  StyledButton,
 } from "./styles";
 import { useWeather } from "../../hooks/useWeatherContext";
 
@@ -84,10 +86,11 @@ export function Header() {
   }
 
   return (
-    <>
+    <StyledFormContainer>
       <StyledForm onSubmit={(e) => handleFormSubmit(e)}>
         <StyledInputContainer>
           <StyledInput
+            className="zipcode"
             placeholder="Zip Code"
             onKeyDown={(e) => checksIfNumber(e)}
             value={zipcode}
@@ -99,6 +102,7 @@ export function Header() {
 
         <StyledInputContainer>
           <StyledInput
+            className="country"
             placeholder="Country"
             value={country}
             onChange={(e) => {
@@ -123,8 +127,13 @@ export function Header() {
           </StyledList>
         </StyledInputContainer>
 
-        <input type="submit" />
+        <StyledButton primary type="submit">
+          Submit
+        </StyledButton>
+        <StyledButton secondary type="submit">
+          Clear
+        </StyledButton>
       </StyledForm>
-    </>
+    </StyledFormContainer>
   );
 }

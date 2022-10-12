@@ -88,11 +88,11 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
     localStorage.removeItem("forecast");
     setCurrent({});
     setForecast({});
+    setErrorMessage("");
   }
 
   const fetchLocation = async () => {
     try {
-      setErrorMessage("");
       const [countryCode] = countryCodes.filter(
         (filteredCountry) => filteredCountry.name === country
       );
@@ -134,7 +134,6 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
   };
 
   const fetchCurrentData = async () => {
-    console.log("fetched weather");
     const weather: Weather = await axios
       .get(
         `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=8567130102e0822763639b23376349b9`
@@ -147,7 +146,6 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
   };
 
   const fetchForecastData = async () => {
-    console.log("fetched forecast");
     const fetchedForecast = await axios
       .get(
         `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=8567130102e0822763639b23376349b9`

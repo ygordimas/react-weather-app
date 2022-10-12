@@ -1,22 +1,20 @@
-import { useEffect, useState } from "react";
 import { DisplayContainer } from "./components/DisplayContainer";
-import DisplayCurrentWeather from "./components/CurrentWeather";
-
 import { Header } from "./components/Header";
-import {
-  WeatherContext,
-  WeatherProvider,
-  useWeather,
-} from "./hooks/useWeatherContext";
+import { WeatherProvider } from "./hooks/useWeatherContext";
+import { Footer } from "./components/Footer";
+import { StyledApp } from "./AppStyle";
+import GlobalStyle from "./assets/globalStyles";
 
 function App() {
   return (
-    <div className="App">
+    <StyledApp>
+      <GlobalStyle />
       <WeatherProvider>
         <Header />
         <DisplayContainer />
       </WeatherProvider>
-    </div>
+      <Footer />
+    </StyledApp>
   );
 }
 

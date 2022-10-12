@@ -1,7 +1,16 @@
-/* http://meyerweb.com/eric/tools/css/reset/ 
-   v2.0 | 20110126
-   License: none (public domain)
-*/
+import { createGlobalStyle } from "styled-components";
+
+export const rootColors = {
+  almond: `226, 208, 195`,
+  purpleHeart: `77, 48, 194`,
+};
+
+const GlobalStyle = createGlobalStyle`
+
+:root {
+    --almond: ${rootColors.almond};
+    --purpleHeart: ${rootColors.purpleHeart}
+}
 
 html,
 body,
@@ -90,6 +99,7 @@ video {
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
+  
 }
 /* HTML5 display-role reset for older browsers */
 article,
@@ -128,11 +138,9 @@ table {
   border-spacing: 0;
 }
 
-.App {
-  background-color: honeydew;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  font-family: "Barlow Condensed", sans-serif;
+body, input, textarea, button {
+    font-family: "Barlow Condensed", sans-serif;    
 }
+`;
+
+export default GlobalStyle;
