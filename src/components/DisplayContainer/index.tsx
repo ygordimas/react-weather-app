@@ -3,16 +3,21 @@ import DisplayCurrentWeather from "../CurrentWeather";
 import { DisplayForecast } from "../DisplayForecast";
 import { DisplayToday } from "../DisplayToday";
 import { LoadingIcon } from "../LoadingIcon";
-import { StyledDisplayContainer } from "./styles";
+import { StyledDisplayContainer, StyledParagraph } from "./styles";
 import { useWeather } from "../../hooks/useWeatherContext";
 import { DisplayError } from "../DisplayError";
 
 export function DisplayContainer() {
-  const { isLoading, setIsLoading, errorMessage } = useWeather();
+  const { current, isLoading, setIsLoading, errorMessage } = useWeather();
 
   return (
     <>
       <StyledDisplayContainer>
+        {Object.keys(current).length > 0 && (
+          <StyledParagraph>
+            Checking weather for {current.name}...
+          </StyledParagraph>
+        )}
         {isLoading && <LoadingIcon />}
         {errorMessage && <DisplayError />}
         <DisplayToday />

@@ -35,6 +35,7 @@ interface WeatherContextData {
   setForecast: (value: {}) => void;
   forecast: [];
   errorMessage: string;
+  handleClearData: () => void;
 }
 
 interface WeatherProviderProps {
@@ -76,7 +77,7 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    handleClearData();
+    // handleClearData();
     //checks if there are no valid inputs for fetching to not waste a call to the API
     if (!lat && !lon) return;
     fetchCurrentData();
@@ -174,6 +175,7 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
         forecast,
         setForecast,
         errorMessage,
+        handleClearData,
       }}
     >
       {children}

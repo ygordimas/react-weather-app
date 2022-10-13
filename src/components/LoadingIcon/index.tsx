@@ -5,7 +5,7 @@ import { LoadingIconContainer } from "./styles";
 export function LoadingIcon() {
   return (
     <LoadingIconContainer>
-      <Spinner9 size={"10rem"} />
+      <Spinner9 size={"20rem"} />
     </LoadingIconContainer>
   );
 }

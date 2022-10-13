@@ -1,15 +1,17 @@
 import { createGlobalStyle } from "styled-components";
 
 export const rootColors = {
-  almond: `226, 208, 195`,
-  purpleHeart: `77, 48, 194`,
+  primary: `77, 48, 194`,
+  secondary: `226, 208, 195`,
+  white: `256, 256, 256`,
 };
 
 const GlobalStyle = createGlobalStyle`
 
 :root {
-    --almond: ${rootColors.almond};
-    --purpleHeart: ${rootColors.purpleHeart}
+    --primary: ${rootColors.primary};
+    --secondary: ${rootColors.secondary};
+    --white: ${rootColors.white}
 }
 
 html,
@@ -138,8 +140,17 @@ table {
   border-spacing: 0;
 }
 
+html, body, #root, .App {
+  height: 100%;
+}
+
 body, input, textarea, button {
     font-family: "Barlow Condensed", sans-serif;    
+}
+
+body {
+  background-color: rgba(var(--secondary), 1);
+  height: 100%;
 }
 `;
 

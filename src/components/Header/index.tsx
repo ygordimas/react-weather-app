@@ -42,6 +42,7 @@ export function Header() {
     lat,
     lon,
     setIsLoading,
+    handleClearData,
   } = useWeather();
   const [availableCountries, setAvailableCountries] = useState<CountryList[]>(
     []
@@ -79,14 +80,14 @@ export function Header() {
 
   function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    localStorage.removeItem("current");
-    localStorage.removeItem("forecast");
+    handleClearData();
     setIsLoading(true);
     fetchLocation();
   }
 
   return (
     <StyledFormContainer>
+      <h1>Weather Forecast Aplication</h1>
       <StyledForm onSubmit={(e) => handleFormSubmit(e)}>
         <StyledInputContainer>
           <StyledInput

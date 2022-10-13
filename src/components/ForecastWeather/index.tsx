@@ -34,22 +34,43 @@ export function ForecastWeather() {
             if (i > 1 && i % 8 === 0) {
               return (
                 <WeatherCard key={day["dt"]}>
-                  <p>
-                    {"Forecast for " +
-                      forecastDayNumber +
-                      "/" +
-                      MONTHS[forecastMonth]}
-                  </p>
-                  <img
-                    src={`http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`}
-                    alt=""
-                  />
-                  <p>{day.weather[0].main}</p>
-                  <p>{day.weather[0].description}</p>
-                  <p>humidity: {day.main.humidity}</p>
-                  <p>temperature: {day.main.temp}ºC</p>
-                  <p>chance of rain: {day.pop * 100}%</p>
-                  <p>wind: {(day.wind.speed * 3.6).toFixed()}km/h</p>
+                  <header>
+                    <h1>
+                      {"Forecast for " +
+                        forecastDayNumber +
+                        "/" +
+                        MONTHS[forecastMonth]}
+                    </h1>
+                    <img
+                      src={`http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`}
+                      alt=""
+                    />
+                    <h2>{day.weather[0].main}</h2>
+                    <p>{day.weather[0].description}</p>
+                  </header>
+
+                  <section>
+                    <div className="spread">
+                      <p>avg. temperature</p>
+                      <div></div>
+                      <p>{day.main.temp.toFixed()}ºC</p>
+                    </div>
+                    <div className="spread">
+                      <p>humidity</p>
+                      <div></div>
+                      <p>{day.main.humidity.toFixed()}%</p>
+                    </div>
+                    <div className="spread">
+                      <p>chance of rain</p>
+                      <div></div>
+                      <p>{day.pop * 100}%</p>
+                    </div>
+                    <div className="spread">
+                      <p>wind</p>
+                      <div></div>
+                      <p>{(day.wind.speed * 3.6).toFixed()}km/h</p>
+                    </div>
+                  </section>
                 </WeatherCard>
               );
             }
