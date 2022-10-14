@@ -15,7 +15,7 @@ export function DisplayContainer() {
       <StyledDisplayContainer>
         {Object.keys(current).length > 0 && (
           <StyledParagraph>
-            Checking weather for {current.name}...
+            Checking the weather for {current.name}...
           </StyledParagraph>
         )}
         {isLoading && <LoadingIcon />}

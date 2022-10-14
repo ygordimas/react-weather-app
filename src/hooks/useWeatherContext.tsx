@@ -87,6 +87,7 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
   function handleClearData() {
     localStorage.removeItem("current");
     localStorage.removeItem("forecast");
+    localStorage.removeItem("location");
     setCurrent({});
     setForecast({});
     setErrorMessage("");

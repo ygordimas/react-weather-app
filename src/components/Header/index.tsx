@@ -10,6 +10,7 @@ import {
   StyledButton,
 } from "./styles";
 import { useWeather } from "../../hooks/useWeatherContext";
+import { R } from "styled-icons/crypto";
 
 type Input = {
   postalCode: string;
@@ -72,7 +73,8 @@ export function Header() {
       !/[0-9]/.test(e.key) &&
       e.key !== "Backspace" &&
       e.key !== "Enter" &&
-      e.key !== "Tab"
+      e.key !== "Tab" &&
+      e.key !== "Delete"
     ) {
       e.preventDefault();
     }
@@ -83,6 +85,12 @@ export function Header() {
     handleClearData();
     setIsLoading(true);
     fetchLocation();
+  }
+
+  function handleClearButton() {
+    handleClearData();
+    setCountry("");
+    setZipcode("");
   }
 
   return (
@@ -131,7 +139,7 @@ export function Header() {
         <StyledButton primary type="submit">
           Submit
         </StyledButton>
-        <StyledButton secondary type="submit">
+        <StyledButton secondary type="button" onClick={handleClearButton}>
           Clear
         </StyledButton>
       </StyledForm>

@@ -31,6 +31,14 @@ export const StyledFormContainer = styled.header`
       z-index: -1;
     }
   }
+
+  @media only screen and (max-width: 992px) {
+    flex-direction: column;
+
+    h1 {
+      margin-bottom: 1rem;
+    }
+  }
 `;
 
 export const StyledForm = styled.form`
@@ -44,17 +52,40 @@ export const StyledForm = styled.form`
   & > * {
     margin: 0 0.2rem;
   }
+
+  @media only screen and (max-width: 576px) {
+    flex-direction: column;
+
+    input {
+      margin-bottom: 0.4rem;
+    }
+  }
 `;
 
 export const StyledInputContainer = styled.div`
   position: relative;
 
   input {
+    width: 100%;
+    height: 3rem;
+    padding-left: 0.5rem;
+    line-height: 3rem;
     border: none;
+    border-radius: 0.35rem;
+    box-sizing: border-box;
     font-size: 1.2rem;
-    font-weight: 300;
+    font-weight: 500;
+    letter-spacing: 0.08rem;
     background-color: rgba(var(--primary), 1);
-    color: rgba(var(--secondary), 1);
+    color: rgba(var(--white), 1);
+
+    &::placeholder {
+      color: rgba(var(--secondary), 1);
+    }
+
+    &:focus {
+      outline: 0.2rem solid rgba(var(--white), 0.5);
+    }
 
     &.zipcode {
       width: 8rem;
@@ -66,17 +97,7 @@ export const StyledInputContainer = styled.div`
   }
 `;
 
-export const StyledInput = styled.input`
-  width: 100%;
-  height: 3rem;
-  line-height: 3rem;
-  border: none;
-  border-radius: 0.35rem;
-
-  box-sizing: border-box;
-  padding-left: 0.5rem;
-  border: 1px solid black;
-`;
+export const StyledInput = styled.input``;
 
 export const StyledList = styled.ul`
   margin: 0;
@@ -103,6 +124,11 @@ export const StyledList = styled.ul`
     background: rgba(var(--white), 1);
     border: 0.1rem solid rgb(var(--secondary));
     border-radius: 100vw;
+  }
+
+  @supports (scrollbar-color: red blue) {
+    scrollbar-color: rgb(var(--white)) rgb(var(--secondary));
+    scrollbar-width: thin;
   }
 
   li {
@@ -135,4 +161,17 @@ export const StyledButton = styled.button<{
   padding: 0 1rem;
   height: 2rem;
   line-height: 0;
+
+  &:focus {
+    outline: 0.2rem solid rgba(var(--white), 0.5);
+  }
+
+  @media only screen and (max-width: 576px) {
+    height: 3rem;
+    padding: 0 3rem;
+
+    & + button {
+      margin-top: 0.5rem;
+    }
+  }
 `;
