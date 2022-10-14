@@ -50,7 +50,7 @@ export function TodayWeather() {
                       <p>{day.main.temp.toFixed()}ºC</p>
                     </div>
                     <div className="spread">
-                      <p>humidity</p>
+                      <p>avg. humidity</p>
                       <div></div>
                       <p>{day.main.humidity}%</p>
                     </div>
@@ -60,7 +60,7 @@ export function TodayWeather() {
                       <p>{day.pop * 100}%</p>
                     </div>
                     <div className="spread">
-                      <p>wind</p>
+                      <p>avg. wind</p>
                       <div></div>
                       <p>{(day.wind.speed * 3.6).toFixed()}km/h</p>
                     </div>

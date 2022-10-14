@@ -94,6 +94,12 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
 
   const fetchLocation = async () => {
     try {
+      if (!country && !zipcode) {
+        throw new Error(
+          "A valid zipcode number and country name are needed for displaying data"
+        );
+      }
+
       const [countryCode] = countryCodes.filter(
         (filteredCountry) => filteredCountry.name === country
       );
@@ -124,12 +130,11 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
 
       localStorage.setItem("location", JSON.stringify(location));
     } catch (err: any) {
-      setErrorMessage(err.toString());
+      setErrorMessage(err.message);
       localStorage.removeItem("location");
       setLat("");
       setLon("");
     } finally {
-      //cleanup for incorrect zipcode/country input
       setIsLoading(false);
     }
   };
