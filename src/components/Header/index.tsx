@@ -125,6 +125,13 @@ export function Header() {
           <StyledList>
             {availableCountries.map((country) => (
               <li
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    setCountry((e.target as HTMLElement).innerText);
+                    setAvailableCountries([]);
+                  }
+                }}
                 onClick={(e) => {
                   setCountry((e.target as HTMLElement).innerText);
                   setAvailableCountries([]);
