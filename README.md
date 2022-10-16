@@ -30,3 +30,14 @@ It was also an opportunity to understand how to do a better job of managing and 
 - Trycatch for handling errors
 - Visual feedback for errors
 - Styling in React with styled-components
+
+## Results
+
+![Weather Forecast Application](https://github.com/ygordimas/react-weather-app/blob/main/public/images/1920_1080_initial-screen.png?raw=true)
+![Weather Forecast Application displaying list of available countries](https://github.com/ygordimas/react-weather-app/blob/main/public/images/1920_1080-country-search.png?raw=true)
+![Weather Forecast Application displaying search results](https://github.com/ygordimas/react-weather-app/blob/main/public/images/1920_1080-displaying-weather.png?raw=true)
+![Weather Forecast Application displaying error message for when there are no valid inputs](https://github.com/ygordimas/react-weather-app/blob/main/public/images/1920_1080-handling-error-1.png?raw=true)
+![Weather Forecast Application displaying error message for invalid zipcode](https://github.com/ygordimas/react-weather-app/blob/main/public/images/1920_1080-handling-error-2.png?raw=true)
+![Weather Forecast Application responsive display with a 768 pixel breakpoint](https://github.com/ygordimas/react-weather-app/blob/main/public/images/768_1080-current-weather.png?raw=true)
+![Weather Forecast Application responsive display with a 576 pixel breakpoint](https://github.com/ygordimas/react-weather-app/blob/main/public/images/576_1125-current-weather.png?raw=true)
+
