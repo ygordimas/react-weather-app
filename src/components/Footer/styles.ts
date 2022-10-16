@@ -9,6 +9,7 @@ export const StyledFooter = styled.div`
   justify-content: flex-end;
   align-items: center;
   border-top: 0.2rem solid rgba(var(--primary), 1);
+  margin-top: 1rem;
 
   a {
     color: rgba(var(--primary), 1);

@@ -125,6 +125,7 @@ export function Header() {
           <StyledList>
             {availableCountries.map((country) => (
               <li
+                key={country["country-code"]}
                 tabIndex={0}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
