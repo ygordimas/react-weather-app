@@ -94,41 +94,55 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
   }
 
   const fetchLocation = async () => {
+    // const locationData: Location = await axios
+    //   .get(
+    //     `http://api.openweathermap.org/geo/1.0/direct?q=Prata,BR&appid=8567130102e0822763639b23376349b9`
+    //   )
+    //   .then((response: {}) => console.log(response));
+
+    // const locationData: Location = await axios
+    //   .get(
+    //     `https://app.zipcodebase.com/api/v1/search?apikey=722f24b0-4e54-11ed-9b3e-f1df447251fe&codes=38408222&`
+    //   )
+    //   .then((response: {}) => console.log(response["data"]["results"][${zipcode}][0]));
+
     try {
       if (!country && !zipcode) {
         throw new Error(
           "A valid zipcode number and country name are needed for displaying data"
         );
       }
-
       const [countryCode] = countryCodes.filter(
         (filteredCountry) => filteredCountry.name === country
       );
-
       if (countryCode === undefined) {
         //if country input doesn't match any of the countries in the ISO-3166 countryCodes list, throw an error
         throw new Error("Invalid country");
       }
-
+      // const locationData: Location = await axios
+      //   .get(
+      //     `http://api.openweathermap.org/geo/1.0/zip?zip=${zipcode},${countryCode["alpha-2"]}&appid=8567130102e0822763639b23376349b9`
+      //   )
+      //   .then((response: {}) => response)
+      //   .catch(() => {
+      //     throw new Error("Invalid zipcode");
+      //   });
       const locationData: Location = await axios
         .get(
-          `http://api.openweathermap.org/geo/1.0/zip?zip=${zipcode},${countryCode["alpha-2"]}&appid=8567130102e0822763639b23376349b9`
+          `https://app.zipcodebase.com/api/v1/search?apikey=722f24b0-4e54-11ed-9b3e-f1df447251fe&codes=${zipcode}&${countryCode}`
         )
-        .then((response: {}) => response)
-        .catch(() => {
-          throw new Error("Invalid zipcode");
-        });
-
-      setLat(locationData.data.lat);
-      setLon(locationData.data.lon);
-
+        .then(
+          (response: { [key: string]: any }) =>
+            response["data"]["results"][`${zipcode}`][0]
+        );
+      setLat(locationData.latitude);
+      setLon(locationData.longitude);
       const location = {
         zipcode: zipcode,
         country: country,
-        lat: locationData.data.lat,
-        lon: locationData.data.lon,
+        lat: lat,
+        lon: lon,
       };
-
       localStorage.setItem("location", JSON.stringify(location));
     } catch (err: any) {
       setErrorMessage(err.message);
