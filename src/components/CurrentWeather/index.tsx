@@ -22,37 +22,43 @@ export default function CurrentWeather() {
   const CurrentWeatherComponent = () => {
     return (
       <>
-        {Object.keys(current).length > 0 && (
-          <WeatherCard>
-            <header>
-              <h1>Current weather</h1>
-              <img
-                src={`http://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png`}
-                alt=""
-              />
-              <h2>{current.weather[0].main}</h2>
-              <p>{current.weather[0].description}</p>
-            </header>
+        <WeatherCard primary>
+          <header>
+            <h1>Current weather</h1>
+            <img src={current.condition.icon} alt="" />
+            <h2>{current.condition.text}</h2>
+            {/* <p>{current.weather[0].description}</p> */}
+          </header>
 
-            <section>
-              <div className="spread">
-                <p>temperature</p>
-                <div></div>
-                <p>{current.main.temp.toFixed()}ºC</p>
-              </div>
-              <div className="spread">
-                <p>feels like</p>
-                <div></div>
-                <p>{current.main.feels_like.toFixed()}ºC</p>
-              </div>
+          <section>
+            <div className="spread">
+              <p>temperature</p>
+              <div></div>
+              <p>{current.temp_c}ºC</p>
+            </div>
+            <div className="spread">
+              <p>feels like</p>
+              <div></div>
+              <p>{current.feelslike_c.toFixed()}ºC</p>
+            </div>
+            <div className="spread">
+              <p>cloud coverage</p>
+              <div></div>
+              <p>{current.cloud}%</p>
+            </div>
+            <div className="spread">
+              <p>precipitation</p>
+              <div></div>
+              <p>{current.precip_mm}mm</p>
+            </div>
 
-              <div className="spread">
-                <p>humidity</p>
-                <div></div>
-                <p>{current.main.humidity.toFixed()}%</p>
-              </div>
+            <div className="spread">
+              <p>humidity</p>
+              <div></div>
+              <p>{current.humidity}%</p>
+            </div>
 
-              {current.main.temp === current.main.temp_max &&
+            {/* {current.main.temp === current.main.temp_max &&
               current.main.temp === current.main.temp_min ? null : (
                 <>
                   <div className="spread">
@@ -66,20 +72,17 @@ export default function CurrentWeather() {
                     <p>{current.main.temp_max.toFixed()}ºC</p>
                   </div>
                 </>
-              )}
-              <div className="spread">
-                <p>wind</p>
-                <div></div>
-                <p>{(current.wind.speed * 3.6).toFixed()}km/h</p>
-              </div>
-            </section>
-          </WeatherCard>
-        )}
+              )} */}
+            <div className="spread">
+              <p>wind</p>
+              <div></div>
+              <p>{current.wind_kph.toFixed()}km/h</p>
+            </div>
+          </section>
+        </WeatherCard>
       </>
     );
   };
 
-  return (
-    <>{Object.hasOwn(current, "weather") && <CurrentWeatherComponent />}</>
-  );
+  return <>{Object.keys(current).length > 0 && <CurrentWeatherComponent />}</>;
 }

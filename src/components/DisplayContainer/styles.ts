@@ -9,8 +9,12 @@ export const StyledDisplayContainer = styled.div`
 `;
 
 export const StyledParagraph = styled.p`
-  font-size: 2rem;
-  font-weight: 700;
+  border: 0.2rem solid rgb(var(--primary));
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1rem 1rem;
+  font-size: 1.2rem;
+  font-weight: 500;
   margin: 1rem auto;
   color: rgb(var(--primary));
 `;

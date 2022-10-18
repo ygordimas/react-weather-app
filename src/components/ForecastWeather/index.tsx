@@ -28,52 +28,61 @@ export function ForecastWeather() {
     <>
       {Object.keys(forecast).length > 0 && (
         <>
-          {forecast.map((day: ForecastDay, i) => {
-            const forecastMonth = new Date(day["dt"] * 1000).getMonth();
-            const forecastDayNumber = new Date(day["dt"] * 1000).getDate();
-            if (i > 1 && i % 8 === 0) {
-              return (
-                <WeatherCard key={day["dt"]}>
-                  <header>
-                    <h1>
-                      {"Forecast for " +
-                        forecastDayNumber +
-                        "/" +
-                        MONTHS[forecastMonth]}
-                    </h1>
-                    <img
-                      src={`http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`}
-                      alt=""
-                    />
-                    <h2>{day.weather[0].main}</h2>
-                    <p>{day.weather[0].description}</p>
-                  </header>
+          {forecast.forecast.forecastday.map((day, i) => {
+            return (
+              <WeatherCard secondary key={day.date_epoch}>
+                <header>
+                  <h1>
+                    Forecast for{" "}
+                    {i == 0
+                      ? `today`
+                      : `${day.date.slice(8)} of ${
+                          MONTHS[Number(day.date.slice(5, 7)) - 1]
+                        }`}
+                  </h1>
+                  <img src={day.day.condition.icon} alt="" />
+                  <h2>{day.day.condition.text}</h2>
+                </header>
 
-                  <section>
-                    <div className="spread">
-                      <p>avg. temperature</p>
-                      <div></div>
-                      <p>{day.main.temp.toFixed()}ºC</p>
-                    </div>
-                    <div className="spread">
-                      <p>humidity</p>
-                      <div></div>
-                      <p>{day.main.humidity.toFixed()}%</p>
-                    </div>
-                    <div className="spread">
-                      <p>chance of rain</p>
-                      <div></div>
-                      <p>{day.pop * 100}%</p>
-                    </div>
-                    <div className="spread">
-                      <p>wind</p>
-                      <div></div>
-                      <p>{(day.wind.speed * 3.6).toFixed()}km/h</p>
-                    </div>
-                  </section>
-                </WeatherCard>
-              );
-            }
+                <section>
+                  <div className="spread">
+                    <p>avg. temperature</p>
+                    <div></div>
+                    <p>{day.day.avgtemp_c}ºC</p>
+                  </div>
+                  <div className="spread">
+                    <p>max. temperature</p>
+                    <div></div>
+                    <p>{day.day.maxtemp_c}ºC</p>
+                  </div>
+                  <div className="spread">
+                    <p>min. temperature</p>
+                    <div></div>
+                    <p>{day.day.mintemp_c}ºC</p>
+                  </div>
+                  <div className="spread">
+                    <p>avg. humidity</p>
+                    <div></div>
+                    <p>{day.day.avghumidity}%</p>
+                  </div>
+                  <div className="spread">
+                    <p>chance of rain</p>
+                    <div></div>
+                    <p>{day.day.daily_chance_of_rain}%</p>
+                  </div>
+                  <div className="spread">
+                    <p>total precipitation</p>
+                    <div></div>
+                    <p>{day.day.totalprecip_mm}mm</p>
+                  </div>
+                  <div className="spread">
+                    <p>max. wind</p>
+                    <div></div>
+                    <p>{day.day.maxwind_kph.toFixed()}km/h</p>
+                  </div>
+                </section>
+              </WeatherCard>
+            );
           })}
         </>
       )}

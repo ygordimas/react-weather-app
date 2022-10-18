@@ -10,7 +10,6 @@ import {
   StyledButton,
 } from "./styles";
 import { useWeather } from "../../hooks/useWeatherContext";
-import { R } from "styled-icons/crypto";
 
 type Input = {
   postalCode: string;

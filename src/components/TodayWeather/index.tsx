@@ -5,20 +5,18 @@ import { WeatherCard } from "../WeatherCard";
 import { TodayWeatherCard } from "./styles";
 
 type ForecastDay = {
-  dt: number;
-  dt_txt: string;
-  main: { humidity: number; temp: number };
-  pop: number;
-  weather: [
-    {
-      description: string;
-      icon: string;
-      main: string;
-    }
-  ];
-  wind: {
-    speed: number;
+  date_epoch: number;
+  avghumidity: number;
+  avgtemp_c: number;
+  condition: {
+    icon: string;
+    text: string;
   };
+  daily_chance_of_rain: number;
+  maxtemp_c: number;
+  mintemp_c: number;
+  totalprecip_mm: number;
+  maxwind_kph: number;
 };
 
 export function TodayWeather() {
@@ -27,42 +25,53 @@ export function TodayWeather() {
     <>
       {Object.keys(forecast).length > 0 && (
         <>
-          {forecast.map((day: ForecastDay, i) => {
-            const forecastMonth = new Date(day["dt"] * 1000).getMonth();
-            const forecastDayNumber = new Date(day["dt"] * 1000).getDate();
+          {forecast.forecast.forecastday.map((day, i) => {
+            // const forecastMonth = new Date(day["dt"] * 1000).getMonth();
+            // const forecastDayNumber = new Date(day["dt"] * 1000).getDate();
             if (i === 0) {
               return (
-                <WeatherCard key={day["dt"]}>
+                <WeatherCard key={day.date_epoch}>
                   <header>
                     <h1>Forecast for today</h1>
-                    <img
-                      src={`http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`}
-                      alt=""
-                    />
-                    <h2>{day.weather[0].main}</h2>
-                    <p>{day.weather[0].description}</p>
+                    <img src={day.day.condition.icon} alt="" />
+                    <h2>{day.day.condition.text}</h2>
                   </header>
 
                   <section>
                     <div className="spread">
                       <p>avg. temperature</p>
                       <div></div>
-                      <p>{day.main.temp.toFixed()}ºC</p>
+                      <p>{day.day.avgtemp_c}ºC</p>
+                    </div>
+                    <div className="spread">
+                      <p>max. temperature</p>
+                      <div></div>
+                      <p>{day.day.maxtemp_c}ºC</p>
+                    </div>
+                    <div className="spread">
+                      <p>min. temperature</p>
+                      <div></div>
+                      <p>{day.day.mintemp_c}ºC</p>
                     </div>
                     <div className="spread">
                       <p>avg. humidity</p>
                       <div></div>
-                      <p>{day.main.humidity}%</p>
+                      <p>{day.day.avghumidity}%</p>
                     </div>
                     <div className="spread">
                       <p>chance of rain</p>
                       <div></div>
-                      <p>{day.pop * 100}%</p>
+                      <p>{day.day.daily_chance_of_rain}%</p>
                     </div>
                     <div className="spread">
-                      <p>avg. wind</p>
+                      <p>total precipitation</p>
                       <div></div>
-                      <p>{(day.wind.speed * 3.6).toFixed()}km/h</p>
+                      <p>{day.day.totalprecip_mm}mm</p>
+                    </div>
+                    <div className="spread">
+                      <p>max. wind</p>
+                      <div></div>
+                      <p>{day.day.maxwind_kph.toFixed()}km/h</p>
                     </div>
                   </section>
                 </WeatherCard>

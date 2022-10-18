@@ -7,7 +7,7 @@ export function DisplayToday() {
   return (
     <DisplayTodayContainer>
       <CurrentWeather />
-      <TodayWeather />
+      {/* <TodayWeather /> */}
     </DisplayTodayContainer>
   );
 }

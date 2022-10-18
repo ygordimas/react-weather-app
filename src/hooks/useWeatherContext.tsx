@@ -19,21 +19,48 @@ interface WeatherContextData {
   isLoading: boolean;
   setIsLoading: (value: boolean) => void;
   current: {
-    name: string;
-    weather: [{ description: string; icon: string; main: string }];
-    main: {
-      feels_like: number;
-      humidity: number;
-      temp: number;
-      temp_max: number;
-      temp_min: number;
+    condition: {
+      icon: string;
+      text: string;
     };
-
-    wind: { speed: number };
+    feelslike_c: number;
+    humidity: number;
+    temp_c: number;
+    wind_kph: number;
+    precip_mm: number;
+    cloud: number;
   };
   setCurrent: (value: {}) => void;
   setForecast: (value: {}) => void;
-  forecast: [];
+  forecast: {
+    current: {};
+    forecast: {
+      forecastday: [
+        {
+          date_epoch: number;
+          date: string;
+          day: {
+            avghumidity: number;
+            avgtemp_c: number;
+            condition: {
+              icon: string;
+              text: string;
+            };
+            daily_chance_of_rain: number;
+            maxtemp_c: number;
+            mintemp_c: number;
+            totalprecip_mm: number;
+            maxwind_kph: number;
+          };
+        }
+      ];
+    };
+    location: {
+      name: string;
+      region: string;
+      country: string;
+    };
+  };
   errorMessage: string;
   handleClearData: () => void;
 }
@@ -80,7 +107,7 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
     // handleClearData();
     //checks if there are no valid inputs for fetching to not waste a call to the API
     if (!lat && !lon) return;
-    fetchCurrentData();
+    // fetchCurrentData();
     fetchForecastData();
   }, [lat, errorMessage]);
 
@@ -94,18 +121,6 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
   }
 
   const fetchLocation = async () => {
-    // const locationData: Location = await axios
-    //   .get(
-    //     `http://api.openweathermap.org/geo/1.0/direct?q=Prata,BR&appid=8567130102e0822763639b23376349b9`
-    //   )
-    //   .then((response: {}) => console.log(response));
-
-    // const locationData: Location = await axios
-    //   .get(
-    //     `https://app.zipcodebase.com/api/v1/search?apikey=722f24b0-4e54-11ed-9b3e-f1df447251fe&codes=38408222&`
-    //   )
-    //   .then((response: {}) => console.log(response["data"]["results"][${zipcode}][0]));
-
     try {
       if (!country && !zipcode) {
         throw new Error(
@@ -119,14 +134,7 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
         //if country input doesn't match any of the countries in the ISO-3166 countryCodes list, throw an error
         throw new Error("Invalid country");
       }
-      // const locationData: Location = await axios
-      //   .get(
-      //     `http://api.openweathermap.org/geo/1.0/zip?zip=${zipcode},${countryCode["alpha-2"]}&appid=8567130102e0822763639b23376349b9`
-      //   )
-      //   .then((response: {}) => response)
-      //   .catch(() => {
-      //     throw new Error("Invalid zipcode");
-      //   });
+
       const locationData: Location = await axios
         .get(
           `https://app.zipcodebase.com/api/v1/search?apikey=722f24b0-4e54-11ed-9b3e-f1df447251fe&codes=${zipcode}&${countryCode}`
@@ -135,14 +143,18 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
           (response: { [key: string]: any }) =>
             response["data"]["results"][`${zipcode}`][0]
         );
+      console.log(locationData);
       setLat(locationData.latitude);
       setLon(locationData.longitude);
       const location = {
         zipcode: zipcode,
         country: country,
-        lat: lat,
-        lon: lon,
+        lat: locationData.latitude,
+        lon: locationData.longitude,
+        provice: locationData.province,
+        state: locationData.state,
       };
+      console.log(location);
       localStorage.setItem("location", JSON.stringify(location));
     } catch (err: any) {
       setErrorMessage(err.message);
@@ -157,24 +169,26 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
   const fetchCurrentData = async () => {
     const weather: Weather = await axios
       .get(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=8567130102e0822763639b23376349b9`
+        `http://api.weatherapi.com/v1/current.json?key=e9093dcdb40d47a6b46160842220604&q=${lat},${lon}`
       )
-      .then((response: {}) => response);
+      .then((response) => response.data.current);
 
     setIsLoading(false);
-    setCurrent(weather.data);
-    localStorage.setItem("current", JSON.stringify(weather.data));
+    setCurrent(weather);
+    localStorage.setItem("current", JSON.stringify(weather));
   };
 
   const fetchForecastData = async () => {
     const fetchedForecast = await axios
       .get(
-        `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=8567130102e0822763639b23376349b9`
+        `http://api.weatherapi.com/v1/forecast.json?key=e9093dcdb40d47a6b46160842220604&q=${lat},${lon}&days=7`
       )
-      .then((response) => response.data.list);
+      .then((response) => response.data);
 
     setIsLoading(false);
+    setCurrent(fetchedForecast.current);
     setForecast(fetchedForecast);
+    localStorage.setItem("current", JSON.stringify(fetchedForecast.current));
     localStorage.setItem("forecast", JSON.stringify(fetchedForecast));
   };
 

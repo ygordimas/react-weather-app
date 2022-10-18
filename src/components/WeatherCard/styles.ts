@@ -1,36 +1,71 @@
 import styled from "styled-components";
 
-export const StyledWeatherCard = styled.div`
+export const StyledWeatherCard = styled.div<{
+  primary?: boolean;
+  secondary?: boolean;
+}>`
   display: flex;
   flex-direction: column;
-  gap: 0.12rem;
-  padding: 1rem;
-  width: 12rem;
+  min-width: 16rem;
   align-items: flex-end;
-  color: rgba(var(--secondary), 1);
-  background-color: rgba(var(--primary), 1);
-  margin: 0.2rem;
+  color: ${(props) =>
+    props.primary ? `rgb(var(--secondary))` : `rgb(var(--primary))`};
+  background-color: ${(props) =>
+    props.primary ? `rgb(var(--primary))` : `rgb(var(--secondary))`};
   letter-spacing: 0.1rem;
+  margin: 0.2rem;
+  border: ${(props) =>
+    props.primary ? `none` : `.2rem solid rgb(var(--primary))`};
 
   & header {
     width: 100%;
     display: flex;
     flex-direction: column;
-    margin-bottom: 1rem;
+    box-sizing: border-box;
+
+    & > :not(h1) {
+      margin-right: 0.5rem;
+    }
 
     h1 {
       align-self: flex-start;
+      width: 100%;
+      box-sizing: border-box;
+      letter-spacing: 0rem;
+      padding-block: 0.5rem;
+
+      border-bottom: ${(props) =>
+        props.primary
+          ? `1px solid rgb(var(--secondary))`
+          : `1px solid rgb(var(--primary))`};
+
+      &::before {
+        content: "•";
+        padding-inline: 0.5rem;
+      }
     }
 
     img {
-      align-self: flex-start;
+      align-self: flex-end;
       width: min-content;
     }
 
     h2 {
       font-size: 1.2rem;
-      font-weight: 700;
-      align-self: flex-end;
+      font-weight: 500;
+      align-self: flex-start;
+      color: ${(props) =>
+        props.primary
+          ? `0.1rem solid rgb(var(--secondary))`
+          : `0.1rem solid rgb(var(--primary))`};
+      /* background-color: rgb(var(--secondary)); */
+      padding: 0.5rem 0.5rem;
+      margin-left: 0.5rem;
+      border: ${(props) =>
+        props.primary
+          ? `0.1rem solid rgb(var(--secondary))`
+          : `0.1rem solid rgb(var(--primary))`};
+      letter-spacing: 0;
     }
 
     p {
@@ -40,14 +75,19 @@ export const StyledWeatherCard = styled.div`
 
   section {
     width: 100%;
+    box-sizing: border-box;
     justify-self: flex-end;
+    align-items: center;
+    padding: 1rem 0.5rem;
+
     .spread {
       width: 100%;
       display: flex;
       justify-content: space-between;
 
       & p:last-child {
-        color: rgb(var(--white));
+        color: ${(props) =>
+          props.primary ? `rgb(var(--white))` : `rgb(var(--primary))`};
       }
 
       & div {
@@ -60,7 +100,10 @@ export const StyledWeatherCard = styled.div`
           content: "";
           bottom: 0;
           left: 50%;
-          border-bottom: 1px dashed rgba(var(--secondary), 0.2);
+          border-bottom: ${(props) =>
+            props.primary
+              ? `1px dashed rgba(var(--secondary), .25)`
+              : `1px dashed rgb(var(--white))`};
           width: 90%;
           height: 100%;
           transform: translateX(-50%);

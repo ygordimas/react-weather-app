@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const StyledFormContainer = styled.header`
   width: 100%;
   background-color: rgba(var(--secondary), 1);
-
+  margin: 0 auto;
   border-bottom: 0.2rem solid rgba(var(--primary), 1);
   padding: 1rem 0;
   box-sizing: border-box;
@@ -14,13 +14,17 @@ export const StyledFormContainer = styled.header`
 
   h1 {
     font-size: 1.4rem;
+    line-height: 3rem;
+    height: 3rem;
     letter-spacing: 0.1rem;
+    padding: 0 0.5rem;
     font-weight: 700;
     color: rgb(var(--primary));
     position: relative;
+    border: 0.2rem solid rgb(var(--primary));
     z-index: 1;
 
-    &::before {
+    /* &::before {
       content: "";
       position: absolute;
       bottom: 0;
@@ -29,7 +33,7 @@ export const StyledFormContainer = styled.header`
       height: 0.4rem;
       background-color: rgb(var(--white));
       z-index: -1;
-    }
+    } */
   }
 
   @media only screen and (max-width: 992px) {
@@ -49,8 +53,8 @@ export const StyledForm = styled.form`
   align-content: center;
   align-items: center;
 
-  & > * {
-    margin: 0 0.2rem;
+  & > *:not(:last-child) {
+    margin: 0 0.5rem;
   }
 
   @media only screen and (max-width: 576px) {
@@ -70,17 +74,18 @@ export const StyledInputContainer = styled.div`
     height: 3rem;
     padding-left: 0.5rem;
     line-height: 3rem;
-    border: none;
-    border-radius: 0.35rem;
+    border: 0.2rem solid rgb(var(--primary));
+
     box-sizing: border-box;
     font-size: 1.2rem;
     font-weight: 500;
-    letter-spacing: 0.08rem;
-    background-color: rgba(var(--primary), 1);
-    color: rgba(var(--white), 1);
+    letter-spacing: 0.02rem;
+    background-color: rgba(var(--secondary), 1);
+    color: rgba(var(--primary), 1);
 
     &::placeholder {
-      color: rgba(var(--secondary), 1);
+      color: rgba(var(--primary), 1);
+      font-weight: 400;
     }
 
     &:focus {
@@ -151,16 +156,24 @@ export const StyledButton = styled.button<{
   primary?: boolean;
   secondary?: boolean;
 }>`
-  background-color: transparent;
-  color: rgba(var(--primary), 1);
+  background-color: ${(props) =>
+    props.primary ? `rgb(var(--primary))` : "transparent"};
+  color: ${(props) =>
+    props.primary ? `rgb(var(--secondary))` : `rgb(var(--primary))`};
   font-size: ${(props) => (props.primary ? "1rem" : "1rem")};
   font-weight: ${(props) => (props.primary ? "700" : "400")};
-  border-radius: 0.8rem;
+
   border: 0.1rem solid rgba(var(--primary), 1);
   cursor: pointer;
   padding: 0 1rem;
   height: 2rem;
   line-height: 0;
+
+  transition: transform 0.1s ease-in;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 
   &:focus {
     outline: 0.2rem solid rgba(var(--white), 0.5);
