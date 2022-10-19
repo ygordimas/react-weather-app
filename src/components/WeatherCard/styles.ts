@@ -48,6 +48,7 @@ export const StyledWeatherCard = styled.div<{
     img {
       align-self: flex-end;
       width: min-content;
+      margin-top: 0.5rem;
     }
 
     h2 {
