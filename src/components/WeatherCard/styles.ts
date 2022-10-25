@@ -6,7 +6,7 @@ export const StyledWeatherCard = styled.div<{
 }>`
   display: flex;
   flex-direction: column;
-  min-width: 16rem;
+  min-width: ${(props) => (props.primary ? `22rem` : `16rem`)};
   align-items: flex-end;
   color: ${(props) =>
     props.primary ? `rgb(var(--secondary))` : `rgb(var(--primary))`};
@@ -16,13 +16,17 @@ export const StyledWeatherCard = styled.div<{
   margin: 0.2rem;
   border: ${(props) =>
     props.primary ? `none` : `.2rem solid rgb(var(--primary))`};
+  cursor: default;
 
   & header {
     width: 100%;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-
+    background: ${(props) =>
+      props.primary
+        ? `rgb(var(--primary))`
+        : `linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)`};
     & > :not(h1) {
       margin-right: 0.5rem;
     }
@@ -33,7 +37,8 @@ export const StyledWeatherCard = styled.div<{
       box-sizing: border-box;
       letter-spacing: 0rem;
       padding-block: 0.5rem;
-
+      background-color: ${(props) =>
+        props.primary ? `rgb(var(--primary))` : `rgb(var(--secondary))`};
       border-bottom: ${(props) =>
         props.primary
           ? `1px solid rgb(var(--secondary))`
@@ -59,7 +64,8 @@ export const StyledWeatherCard = styled.div<{
         props.primary
           ? `0.1rem solid rgb(var(--secondary))`
           : `0.1rem solid rgb(var(--primary))`};
-      /* background-color: rgb(var(--secondary)); */
+      background-color: ${(props) =>
+        props.primary ? `rgb(var(--primary))` : `rgb(var(--secondary))`};
       padding: 0.5rem 0.5rem;
       margin-left: 0.5rem;
       border: ${(props) =>

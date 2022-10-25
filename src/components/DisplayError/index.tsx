@@ -7,7 +7,7 @@ export function DisplayError() {
   return (
     <StyledDisplayError>
       <Error size={"4rem"} />
-      <p>{errorMessage}. Please try again.</p>
+      <p>{errorMessage}</p>
     </StyledDisplayError>
   );
 }

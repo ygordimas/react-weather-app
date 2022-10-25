@@ -4,7 +4,7 @@ export const StyledDisplayError = styled.div`
   color: rgb(var(--primary));
   display: flex;
   align-items: center;
-  background-color: transparent;
+  background-color: rgb(var(--white));
   margin: 0 auto;
   border: 0.2rem solid rgb(var(--primary));
   margin-top: 2rem;

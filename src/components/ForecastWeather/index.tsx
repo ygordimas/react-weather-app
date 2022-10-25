@@ -48,17 +48,17 @@ export function ForecastWeather() {
                   <div className="spread">
                     <p>avg. temperature</p>
                     <div></div>
-                    <p>{day.day.avgtemp_c}ºC</p>
+                    <p>{day.day.avgtemp_c.toFixed()}ºC</p>
                   </div>
                   <div className="spread">
                     <p>max. temperature</p>
                     <div></div>
-                    <p>{day.day.maxtemp_c}ºC</p>
+                    <p>{day.day.maxtemp_c.toFixed()}ºC</p>
                   </div>
                   <div className="spread">
                     <p>min. temperature</p>
                     <div></div>
-                    <p>{day.day.mintemp_c}ºC</p>
+                    <p>{day.day.mintemp_c.toFixed()}ºC</p>
                   </div>
                   <div className="spread">
                     <p>avg. humidity</p>

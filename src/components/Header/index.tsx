@@ -100,7 +100,7 @@ export function Header() {
           <StyledInput
             className="zipcode"
             placeholder="Zip Code"
-            onKeyDown={(e) => checksIfNumber(e)}
+            // onKeyDown={(e) => checksIfNumber(e)}
             value={zipcode}
             onChange={(e) => {
               setZipcode(e.target.value);

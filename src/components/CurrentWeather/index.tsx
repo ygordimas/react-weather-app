@@ -34,7 +34,7 @@ export default function CurrentWeather() {
             <div className="spread">
               <p>temperature</p>
               <div></div>
-              <p>{current.temp_c}ºC</p>
+              <p>{current.temp_c.toFixed()}ºC</p>
             </div>
             <div className="spread">
               <p>feels like</p>

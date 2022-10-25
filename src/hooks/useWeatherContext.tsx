@@ -122,9 +122,9 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
 
   const fetchLocation = async () => {
     try {
-      if (!country && !zipcode) {
+      if (!country || !zipcode) {
         throw new Error(
-          "A valid zipcode number and country name are needed for displaying data"
+          "You must provide a valid zipcode and country name for retrieving data."
         );
       }
       const [countryCode] = countryCodes.filter(
@@ -132,29 +132,35 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
       );
       if (countryCode === undefined) {
         //if country input doesn't match any of the countries in the ISO-3166 countryCodes list, throw an error
-        throw new Error("Invalid country");
+        throw new Error(
+          "No matches for the provided country name in our data base."
+        );
       }
 
-      const locationData: Location = await axios
+      const locationData: void | Location = await axios
         .get(
           `https://app.zipcodebase.com/api/v1/search?apikey=722f24b0-4e54-11ed-9b3e-f1df447251fe&codes=${zipcode}&${countryCode}`
         )
-        .then(
-          (response: { [key: string]: any }) =>
-            response["data"]["results"][`${zipcode}`][0]
-        );
-      console.log(locationData);
-      setLat(locationData.latitude);
-      setLon(locationData.longitude);
+        .then((response: { [key: string]: any }) => {
+          if (response["data"]["results"].length == 0) {
+            throw new Error(
+              "Data unavailable. Please check that you are providing a valid zipcode + country combination."
+            );
+          }
+          response["data"]["results"][`${zipcode}`][0];
+        });
+
+      setLat(locationData?.latitude);
+      setLon(locationData?.longitude);
       const location = {
         zipcode: zipcode,
         country: country,
-        lat: locationData.latitude,
-        lon: locationData.longitude,
-        provice: locationData.province,
-        state: locationData.state,
+        lat: locationData?.latitude,
+        lon: locationData?.longitude,
+        provice: locationData?.province,
+        state: locationData?.state,
       };
-      console.log(location);
+
       localStorage.setItem("location", JSON.stringify(location));
     } catch (err: any) {
       setErrorMessage(err.message);
@@ -169,7 +175,7 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
   const fetchCurrentData = async () => {
     const weather: Weather = await axios
       .get(
-        `http://api.weatherapi.com/v1/current.json?key=e9093dcdb40d47a6b46160842220604&q=${lat},${lon}`
+        `https://api.weatherapi.com/v1/current.json?key=e9093dcdb40d47a6b46160842220604&q=${lat},${lon}`
       )
       .then((response) => response.data.current);
 
@@ -181,7 +187,7 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
   const fetchForecastData = async () => {
     const fetchedForecast = await axios
       .get(
-        `http://api.weatherapi.com/v1/forecast.json?key=e9093dcdb40d47a6b46160842220604&q=${lat},${lon}&days=7`
+        `https://api.weatherapi.com/v1/forecast.json?key=e9093dcdb40d47a6b46160842220604&q=${lat},${lon}&days=7`
       )
       .then((response) => response.data);
 

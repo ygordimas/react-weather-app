@@ -7,23 +7,28 @@ export const StyledFormContainer = styled.header`
   border-bottom: 0.2rem solid rgba(var(--primary), 1);
   padding: 1rem 0;
   box-sizing: border-box;
-  display: flex;
+  /* display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; */
   /* flex-direction: column; */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
 
   h1 {
     font-size: 1.4rem;
-    line-height: 3rem;
-    height: 3rem;
+    /* line-height: 3rem; */
+    display: flex;
+    align-items: center;
+    width: min-content;
+    min-height: 3rem;
     letter-spacing: 0.1rem;
-    padding: 0 0.5rem;
+    padding: 1rem 0.5rem;
     font-weight: 700;
     color: rgb(var(--primary));
     position: relative;
     border: 0.2rem solid rgb(var(--primary));
     z-index: 1;
-
+    background-color: rgb(var(--white));
     /* &::before {
       content: "";
       position: absolute;
@@ -37,6 +42,9 @@ export const StyledFormContainer = styled.header`
   }
 
   @media only screen and (max-width: 992px) {
+    h1 {
+      padding: 0rem 0.5rem;
+    }
     flex-direction: column;
 
     h1 {
@@ -46,8 +54,8 @@ export const StyledFormContainer = styled.header`
 `;
 
 export const StyledForm = styled.form`
+  justify-self: end;
   display: flex;
-  /* margin: 0 auto; */
   box-sizing: border-box;
   justify-content: center;
   align-content: center;
@@ -80,7 +88,7 @@ export const StyledInputContainer = styled.div`
     font-size: 1.2rem;
     font-weight: 500;
     letter-spacing: 0.02rem;
-    background-color: rgba(var(--secondary), 1);
+    background-color: rgba(var(--white), 1);
     color: rgba(var(--primary), 1);
 
     &::placeholder {
@@ -165,14 +173,20 @@ export const StyledButton = styled.button<{
 
   border: 0.1rem solid rgba(var(--primary), 1);
   cursor: pointer;
-  padding: 0 1rem;
-  height: 2rem;
+  padding: 0 1.5rem;
+  height: 3rem;
   line-height: 0;
 
   transition: transform 0.1s ease-in;
+  transition: background-color 0.15s ease-in;
+  transition: color 0.15s ease-in;
 
   &:hover {
     transform: scale(1.05);
+    background-color: ${(props) =>
+      props.primary ? `rgb(var(--primary))` : `rgb(var(--white))`};
+    color: ${(props) =>
+      props.primary ? `rgb(var(--white))` : `rgb(var(--primary))`};
   }
 
   &:focus {
