@@ -5,4 +5,10 @@ export const DisplayForecastContainer = styled.div`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+
+  @media screen and (max-width: 992px) {
+    margin: 0 auto;
+    width: 22rem;
+    flex-direction: column;
+  }
 `;

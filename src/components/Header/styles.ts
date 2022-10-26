@@ -16,7 +16,7 @@ export const StyledFormContainer = styled.header`
 
   h1 {
     font-size: 1.4rem;
-    /* line-height: 3rem; */
+
     display: flex;
     align-items: center;
     width: min-content;
@@ -29,26 +29,15 @@ export const StyledFormContainer = styled.header`
     border: 0.2rem solid rgb(var(--primary));
     z-index: 1;
     background-color: rgb(var(--white));
-    /* &::before {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 0.4rem;
-      background-color: rgb(var(--white));
-      z-index: -1;
-    } */
   }
 
   @media only screen and (max-width: 992px) {
+    grid-template-columns: 1fr;
+    justify-items: center;
     h1 {
-      padding: 0rem 0.5rem;
-    }
-    flex-direction: column;
-
-    h1 {
-      margin-bottom: 1rem;
+      grid-column: 1 / -1;
+      justify-self: center;
+      margin-bottom: 0.4rem;
     }
   }
 `;
@@ -56,26 +45,34 @@ export const StyledFormContainer = styled.header`
 export const StyledForm = styled.form`
   justify-self: end;
   display: flex;
-  box-sizing: border-box;
   justify-content: center;
   align-content: center;
   align-items: center;
+
+  box-sizing: border-box;
 
   & > *:not(:last-child) {
     margin: 0 0.5rem;
   }
 
-  @media only screen and (max-width: 576px) {
-    flex-direction: column;
-
-    input {
-      margin-bottom: 0.4rem;
+  @media only screen and (max-width: 992px) {
+    justify-self: center;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+    gap: 0.4rem;
+    & > *:not(:last-child) {
+      margin: 0;
     }
   }
 `;
 
 export const StyledInputContainer = styled.div`
   position: relative;
+
+  @media only screen and (max-width: 768px) {
+    grid-column: 1 /-1;
+  }
 
   input {
     width: 100%;
@@ -102,6 +99,9 @@ export const StyledInputContainer = styled.div`
 
     &.zipcode {
       width: 8rem;
+      @media only screen and (max-width: 992px) {
+        width: 15rem;
+      }
     }
 
     &.country {
@@ -149,14 +149,20 @@ export const StyledList = styled.ul`
     cursor: pointer;
     height: 3rem;
     line-height: 3rem;
-    border-radius: 0.35rem;
+    border-radius: 0.1rem;
     margin-bottom: 0.25rem;
     width: calc(100% - 0.2rem);
     padding-left: 0.2rem;
     list-style: none;
-    background-color: rgb(var(--secondary));
-    border: 1px solid rgb(var(--primary));
+    background: rgb(var(--white));
+    border: 2px solid rgb(var(--primary));
     color: rgb(var(--primary));
+
+    &:focus {
+      outline: 2px solid rgb(var(--primary));
+      z-index: 2;
+      font-weight: 500;
+    }
   }
 `;
 
@@ -191,6 +197,14 @@ export const StyledButton = styled.button<{
 
   &:focus {
     outline: 0.2rem solid rgba(var(--white), 0.5);
+  }
+  @media only screen and (max-width: 992px) {
+    width: 10rem;
+    grid-column: 1 / -1;
+    & + button {
+      width: 6rem;
+      height: 2.2rem;
+    }
   }
 
   @media only screen and (max-width: 576px) {

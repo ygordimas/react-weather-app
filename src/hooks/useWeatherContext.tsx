@@ -147,7 +147,7 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
               "Data unavailable. Please check that you are providing a valid zipcode + country combination."
             );
           }
-          response["data"]["results"][`${zipcode}`][0];
+          return response["data"]["results"][`${zipcode}`][0];
         });
 
       setLat(locationData?.latitude);
