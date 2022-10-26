@@ -38,7 +38,7 @@ Error generating stack: `+i.message+`
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- */var Ty=ee.exports,Oy=Symbol.for("react.element"),Ay=Symbol.for("react.fragment"),zy=Object.prototype.hasOwnProperty,Ly=Ty.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner,Iy={key:!0,ref:!0,__self:!0,__source:!0};function Uf(e,t,n){var r,o={},i=null,l=null;n!==void 0&&(i=""+n),t.key!==void 0&&(i=""+t.key),t.ref!==void 0&&(l=t.ref);for(r in t)zy.call(t,r)&&!Iy.hasOwnProperty(r)&&(o[r]=t[r]);if(e&&e.defaultProps)for(r in t=e.defaultProps,t)o[r]===void 0&&(o[r]=t[r]);return{$$typeof:Oy,type:e,key:i,ref:l,props:o,_owner:Ly.current}}Ti.Fragment=Ay;Ti.jsx=Uf;Ti.jsxs=Uf;(function(e){e.exports=Ti})(Ri);const Kn=Ri.exports.Fragment,T=Ri.exports.jsx,U=Ri.exports.jsxs,Hf=ee.exports.createContext({});function My({children:e}){var S,C,O,z;const[t,n]=ee.exports.useState(((S=JSON.parse(localStorage.getItem("location")))==null?void 0:S.country)||""),[r,o]=ee.exports.useState(((C=JSON.parse(localStorage.getItem("location")))==null?void 0:C.zipcode)||""),[i,l]=ee.exports.useState(((O=JSON.parse(localStorage.getItem("location")))==null?void 0:O.lat)||""),[a,u]=ee.exports.useState(((z=JSON.parse(localStorage.getItem("location")))==null?void 0:z.lon)||""),[s,h]=ee.exports.useState(JSON.parse(localStorage.getItem("current"))||{}),[m,p]=ee.exports.useState(JSON.parse(localStorage.getItem("forecast"))||{}),[v,y]=ee.exports.useState(!1),[w,x]=ee.exports.useState("");ee.exports.useEffect(()=>{!i&&!a||f()},[i,w]);function d(){localStorage.removeItem("current"),localStorage.removeItem("forecast"),localStorage.removeItem("location"),h({}),p({}),x("")}const c=async()=>{try{if(!t||!r)throw new Error("You must provide a valid zipcode and country name for retrieving data.");const[_]=Bf.filter(ie=>ie.name===t);if(_===void 0)throw new Error("No matches for the provided country name in our data base.");const M=await De.get(`https://app.zipcodebase.com/api/v1/search?apikey=722f24b0-4e54-11ed-9b3e-f1df447251fe&codes=${r}&${_}`).then(ie=>{if(ie.data.results.length==0)throw new Error("Data unavailable. Please check that you are providing a valid zipcode + country combination.");ie.data.results[`${r}`][0]});l(M==null?void 0:M.latitude),u(M==null?void 0:M.longitude);const D={zipcode:r,country:t,lat:M==null?void 0:M.latitude,lon:M==null?void 0:M.longitude,provice:M==null?void 0:M.province,state:M==null?void 0:M.state};localStorage.setItem("location",JSON.stringify(D))}catch(_){x(_.message),localStorage.removeItem("location"),l(""),u("")}finally{y(!1)}},f=async()=>{const _=await De.get(`https://api.weatherapi.com/v1/forecast.json?key=e9093dcdb40d47a6b46160842220604&q=${i},${a}&days=7`).then(M=>M.data);y(!1),h(_.current),p(_),localStorage.setItem("current",JSON.stringify(_.current)),localStorage.setItem("forecast",JSON.stringify(_))};return T(Hf.Provider,{value:{country:t,setCountry:n,zipcode:r,setZipcode:o,fetchLocation:c,isLoading:v,setIsLoading:y,lat:i,lon:a,current:s,setCurrent:h,forecast:m,setForecast:p,errorMessage:w,handleClearData:d},children:e})}function qr(){return ee.exports.useContext(Hf)}const Fy=["January","February","March","April","May","June","July","August","September","October","November","December"];var Oi={exports:{}},Z={};/** @license React v16.13.1
+ */var Ty=ee.exports,Oy=Symbol.for("react.element"),Ay=Symbol.for("react.fragment"),zy=Object.prototype.hasOwnProperty,Ly=Ty.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner,Iy={key:!0,ref:!0,__self:!0,__source:!0};function Uf(e,t,n){var r,o={},i=null,l=null;n!==void 0&&(i=""+n),t.key!==void 0&&(i=""+t.key),t.ref!==void 0&&(l=t.ref);for(r in t)zy.call(t,r)&&!Iy.hasOwnProperty(r)&&(o[r]=t[r]);if(e&&e.defaultProps)for(r in t=e.defaultProps,t)o[r]===void 0&&(o[r]=t[r]);return{$$typeof:Oy,type:e,key:i,ref:l,props:o,_owner:Ly.current}}Ti.Fragment=Ay;Ti.jsx=Uf;Ti.jsxs=Uf;(function(e){e.exports=Ti})(Ri);const Kn=Ri.exports.Fragment,T=Ri.exports.jsx,U=Ri.exports.jsxs,Hf=ee.exports.createContext({});function My({children:e}){var S,C,O,z;const[t,n]=ee.exports.useState(((S=JSON.parse(localStorage.getItem("location")))==null?void 0:S.country)||""),[r,o]=ee.exports.useState(((C=JSON.parse(localStorage.getItem("location")))==null?void 0:C.zipcode)||""),[i,l]=ee.exports.useState(((O=JSON.parse(localStorage.getItem("location")))==null?void 0:O.lat)||""),[a,u]=ee.exports.useState(((z=JSON.parse(localStorage.getItem("location")))==null?void 0:z.lon)||""),[s,h]=ee.exports.useState(JSON.parse(localStorage.getItem("current"))||{}),[m,p]=ee.exports.useState(JSON.parse(localStorage.getItem("forecast"))||{}),[v,y]=ee.exports.useState(!1),[w,x]=ee.exports.useState("");ee.exports.useEffect(()=>{!i&&!a||f()},[i,w]);function d(){localStorage.removeItem("current"),localStorage.removeItem("forecast"),localStorage.removeItem("location"),h({}),p({}),x("")}const c=async()=>{try{if(!t||!r)throw new Error("You must provide a valid zipcode and country name for retrieving data.");const[_]=Bf.filter(ie=>ie.name===t);if(_===void 0)throw new Error("No matches for the provided country name in our data base.");const M=await De.get(`https://app.zipcodebase.com/api/v1/search?apikey=722f24b0-4e54-11ed-9b3e-f1df447251fe&codes=${r}&${_}`).then(ie=>{if(ie.data.results.length==0)throw new Error("Data unavailable. Please check that you are providing a valid zipcode + country combination.");return ie.data.results[`${r}`][0]});l(M==null?void 0:M.latitude),u(M==null?void 0:M.longitude);const D={zipcode:r,country:t,lat:M==null?void 0:M.latitude,lon:M==null?void 0:M.longitude,provice:M==null?void 0:M.province,state:M==null?void 0:M.state};localStorage.setItem("location",JSON.stringify(D))}catch(_){x(_.message),localStorage.removeItem("location"),l(""),u("")}finally{y(!1)}},f=async()=>{const _=await De.get(`https://api.weatherapi.com/v1/forecast.json?key=e9093dcdb40d47a6b46160842220604&q=${i},${a}&days=7`).then(M=>M.data);y(!1),h(_.current),p(_),localStorage.setItem("current",JSON.stringify(_.current)),localStorage.setItem("forecast",JSON.stringify(_))};return T(Hf.Provider,{value:{country:t,setCountry:n,zipcode:r,setZipcode:o,fetchLocation:c,isLoading:v,setIsLoading:y,lat:i,lon:a,current:s,setCurrent:h,forecast:m,setForecast:p,errorMessage:w,handleClearData:d},children:e})}function qr(){return ee.exports.useContext(Hf)}const Fy=["January","February","March","April","May","June","July","August","September","October","November","December"];var Oi={exports:{}},Z={};/** @license React v16.13.1
  * react-is.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -147,6 +147,12 @@ Error generating stack: `+i.message+`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+
+  @media screen and (max-width: 992px) {
+    margin: 0 auto;
+    width: 22rem;
+    flex-direction: column;
+  }
 `;function M0(){return T(Kn,{children:T(I0,{children:T(L0,{})})})}function F0(){const{current:e}=qr(),t=()=>T(Kn,{children:U(op,{primary:!0,children:[U("header",{children:[T("h1",{children:"Current weather"}),T("img",{src:e.condition.icon,alt:""}),T("h2",{children:e.condition.text})]}),U("section",{children:[U("div",{className:"spread",children:[T("p",{children:"temperature"}),T("div",{}),U("p",{children:[e.temp_c.toFixed(),"\xBAC"]})]}),U("div",{className:"spread",children:[T("p",{children:"feels like"}),T("div",{}),U("p",{children:[e.feelslike_c.toFixed(),"\xBAC"]})]}),U("div",{className:"spread",children:[T("p",{children:"cloud coverage"}),T("div",{}),U("p",{children:[e.cloud,"%"]})]}),U("div",{className:"spread",children:[T("p",{children:"precipitation"}),T("div",{}),U("p",{children:[e.precip_mm,"mm"]})]}),U("div",{className:"spread",children:[T("p",{children:"humidity"}),T("div",{}),U("p",{children:[e.humidity,"%"]})]}),U("div",{className:"spread",children:[T("p",{children:"wind"}),T("div",{}),U("p",{children:[e.wind_kph.toFixed(),"km/h"]})]})]})]})});return T(Kn,{children:Object.keys(e).length>0&&T(t,{})})}const D0=Le.div`
   width: 100%;
   display: flex;
@@ -217,7 +223,7 @@ Error generating stack: `+i.message+`
 
   h1 {
     font-size: 1.4rem;
-    /* line-height: 3rem; */
+
     display: flex;
     align-items: center;
     width: min-content;
@@ -230,49 +236,46 @@ Error generating stack: `+i.message+`
     border: 0.2rem solid rgb(var(--primary));
     z-index: 1;
     background-color: rgb(var(--white));
-    /* &::before {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 0.4rem;
-      background-color: rgb(var(--white));
-      z-index: -1;
-    } */
   }
 
   @media only screen and (max-width: 992px) {
+    grid-template-columns: 1fr;
+    justify-items: center;
     h1 {
-      padding: 0rem 0.5rem;
-    }
-    flex-direction: column;
-
-    h1 {
-      margin-bottom: 1rem;
+      grid-column: 1 / -1;
+      justify-self: center;
+      margin-bottom: 0.4rem;
     }
   }
 `,Z0=Le.form`
   justify-self: end;
   display: flex;
-  box-sizing: border-box;
   justify-content: center;
   align-content: center;
   align-items: center;
+
+  box-sizing: border-box;
 
   & > *:not(:last-child) {
     margin: 0 0.5rem;
   }
 
-  @media only screen and (max-width: 576px) {
-    flex-direction: column;
-
-    input {
-      margin-bottom: 0.4rem;
+  @media only screen and (max-width: 992px) {
+    justify-self: center;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+    gap: 0.4rem;
+    & > *:not(:last-child) {
+      margin: 0;
     }
   }
 `,uc=Le.div`
   position: relative;
+
+  @media only screen and (max-width: 768px) {
+    grid-column: 1 /-1;
+  }
 
   input {
     width: 100%;
@@ -299,6 +302,9 @@ Error generating stack: `+i.message+`
 
     &.zipcode {
       width: 8rem;
+      @media only screen and (max-width: 992px) {
+        width: 15rem;
+      }
     }
 
     &.country {
@@ -342,14 +348,20 @@ Error generating stack: `+i.message+`
     cursor: pointer;
     height: 3rem;
     line-height: 3rem;
-    border-radius: 0.35rem;
+    border-radius: 0.1rem;
     margin-bottom: 0.25rem;
     width: calc(100% - 0.2rem);
     padding-left: 0.2rem;
     list-style: none;
-    background-color: rgb(var(--secondary));
-    border: 1px solid rgb(var(--primary));
+    background: rgb(var(--white));
+    border: 2px solid rgb(var(--primary));
     color: rgb(var(--primary));
+
+    &:focus {
+      outline: 2px solid rgb(var(--primary));
+      z-index: 2;
+      font-weight: 500;
+    }
   }
 `,cc=Le.button`
   background-color: ${e=>e.primary?"rgb(var(--primary))":"transparent"};
@@ -375,6 +387,14 @@ Error generating stack: `+i.message+`
 
   &:focus {
     outline: 0.2rem solid rgba(var(--white), 0.5);
+  }
+  @media only screen and (max-width: 992px) {
+    width: 10rem;
+    grid-column: 1 / -1;
+    & + button {
+      width: 6rem;
+      height: 2.2rem;
+    }
   }
 
   @media only screen and (max-width: 576px) {
